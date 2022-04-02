@@ -31,17 +31,7 @@ def fitnessFunction(pop: list, individual):
     return (x/sum(objFuncPopulation))
 
 
-def maxInPop(pop):
-    objFuncPopulation = list(map(objFunction, pop))
-    return max(objFuncPopulation)
-
-
-def minInPop(pop):
-    objFuncPopulation = map(objFunction, pop)
-    return min(objFuncPopulation)
-
-
-def randomIndividial():
+def randomIndividual():
     individual = np.random.choice(binaryList, size=30)
     return individual
 
@@ -49,7 +39,7 @@ def randomIndividial():
 def initializePopulation():
     a = []
     for i in range(10):
-        a.append(randomIndividial())
+        a.append(randomIndividual())
     return a
 
 
@@ -59,8 +49,8 @@ def decision(probability):
 
 def selection(pop):
     inxPop = [inx for inx, val in enumerate(pop)]
-    inxParents = np.random.choice(a=inxPop, p=list(
-        map(fitnessFunction, repeat(population), population)), size=10)
+    fitnessList = list(map(fitnessFunction, repeat(population), population))
+    inxParents = np.random.choice(a=inxPop, p=fitnessList, size=10)
     parents = []
     for x in inxParents:
         parents.append(pop[x])
@@ -87,16 +77,15 @@ def mutation(ind):
 
 
 # %%
-population = initializePopulation()
-
-decimalPopulation = map(binaryToDecimal, population)
-
-print(list(decimalPopulation))
-# %%
-fitnessList = list(map(fitnessFunction, repeat(population), population))
-print(fitnessList)
-
-parents = selection(population)
-
-print(list(map(binaryToDecimal, parents)))
+#population = initializePopulation()
+#
+#decimalPopulation = map(binaryToDecimal, population)
+#
+#print(list(decimalPopulation))
+#fitnessList = list(map(fitnessFunction, repeat(population), population))
+#print(fitnessList)
+#
+#parents = selection(population)
+#
+#print(list(map(binaryToDecimal, parents)))
 # %%
