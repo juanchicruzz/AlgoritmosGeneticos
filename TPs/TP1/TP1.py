@@ -49,7 +49,7 @@ def decision(probability):
 
 def selection(pop):
     inxPop = [inx for inx, val in enumerate(pop)]
-    fitnessList = list(map(fitnessFunction, repeat(population), population))
+    fitnessList = list(map(fitnessFunction, repeat(pop), pop))
     inxParents = np.random.choice(a=inxPop, p=fitnessList, size=10)
     parents = []
     for x in inxParents:
