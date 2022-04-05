@@ -2,6 +2,10 @@
 import TP1 as fc
 import numpy as np
 
+cycles = 20
+tournamentSize = 0.4
+
+
 
 population = fc.initializePopulation()
 objFuncPopulation = list(map(fc.objFunction, population))
@@ -14,7 +18,7 @@ minList=[min(objFuncPopulation)]
 #print(promList)
 #%%
 
-for i in range(0,100):
+for i in range(0,cycles):
     parents = fc.selection(population)
     nextGeneration = []
     for i in range(0,9,2): #creo que aca puedo usar CHUNKS.

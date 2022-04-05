@@ -6,12 +6,11 @@ import random
 from itertools import repeat
 
 crossoverProb: float = 0.75
-mutationProb: float = 0.05
+mutationProb: float = 0.15
 coef = (2**30)-1
 
 binaryList = [0, 1]
-population = []
-cycles = 20
+
 # %%
 # DEFINE FUNCTIONS
 
@@ -47,13 +46,57 @@ def decision(probability):
     return random.random() < probability
 
 
-def selection(pop):
+def selection(pop,isElite:bool):
+    size=list.count(pop)
     inxPop = [inx for inx, val in enumerate(pop)]
     fitnessList = list(map(fitnessFunction, repeat(pop), pop))
-    inxParents = np.random.choice(a=inxPop, p=fitnessList, size=10)
     parents = []
+    if(isElite):
+        size=size-2
+        fitAndInx = list(zip(inxPop,fitnessList))
+        fitAndInx.sort(fitAndInx, key=lambda tup: tup[1], reverse=True)
+        parents.append(pop[fitAndInx[0][0]])
+        parents.append(pop[fitAndInx[1][0]])
+
+    inxParents = np.random.choice(a=inxPop, p=fitnessList, size=size)
     for x in inxParents:
         parents.append(pop[x])
+    return parents
+
+def selectionTournament(pop,isElite:bool,tSize):
+    size=list.count(pop)
+    inxPop = [inx for inx, val in enumerate(pop)]
+    fitnessList = list(map(fitnessFunction, repeat(pop), pop))
+    parents = []
+    if(isElite):
+        size=size-2
+        fitAndInx = list(zip(inxPop,fitnessList))
+        fitAndInx.sort(fitAndInx, key=lambda tup: tup[1], reverse=True)
+        parents.append(pop[fitAndInx[0][0]])
+        parents.append(pop[fitAndInx[1][0]])
+
+    # inxParents = np.random.choice(a=inxPop, p=fitnessList, size=10)
+    # for x in inxParents:
+    #     parents.append(pop[x])
+
+    playersCount = 2**(round(np.sqrt(tSize * list.count(pop)))) 
+
+    #multiplico tSize(porcentaje de pop que van a torneo) por size de pop
+    #redondeo el numero a numero entero y hago 2 elevado al resultado para que de una cantidad
+    #posible de cruces
+
+    for i in range(size):
+        players=np.random.choice(a=inxPop, size=playersCount)
+        partialWinners=[]
+##
+        for j in range(0,playersCount-1,2): 
+            p1 = []
+            p2 = []
+            p1 = players[i]
+            p2 = players[i+1]
+
+
+
     return parents
 
 
