@@ -1,5 +1,5 @@
 #%%
-import TP1 as fc
+import Functions as fc
 import numpy as np
 
 cycles = 20

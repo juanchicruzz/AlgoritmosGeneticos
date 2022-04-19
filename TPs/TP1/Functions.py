@@ -47,14 +47,14 @@ def decision(probability):
 
 
 def selection(pop,isElite:bool):
-    size=list.count(pop)
+    size=len(pop)
     inxPop = [inx for inx, val in enumerate(pop)]
     fitnessList = list(map(fitnessFunction, repeat(pop), pop))
     parents = []
     if(isElite):
         size=size-2
         fitAndInx = list(zip(inxPop,fitnessList))
-        fitAndInx.sort(fitAndInx, key=lambda tup: tup[1], reverse=True)
+        fitAndInx.sort(key=lambda tup: tup[1], reverse=True)
         parents.append(pop[fitAndInx[0][0]])
         parents.append(pop[fitAndInx[1][0]])
 
@@ -63,23 +63,20 @@ def selection(pop,isElite:bool):
         parents.append(pop[x])
     return parents
 
-def selectionTournament(pop,isElite:bool,tSize):
-    size=list.count(pop)
+def selectionTournament(pop:list,isElite:bool,tSize:float):
+    size=len(pop)
     inxPop = [inx for inx, val in enumerate(pop)]
     fitnessList = list(map(fitnessFunction, repeat(pop), pop))
     parents = []
+    inxParents=[]
     if(isElite):
         size=size-2
         fitAndInx = list(zip(inxPop,fitnessList))
-        fitAndInx.sort(fitAndInx, key=lambda tup: tup[1], reverse=True)
+        fitAndInx.sort(key=lambda tup: tup[1], reverse=True)
         parents.append(pop[fitAndInx[0][0]])
         parents.append(pop[fitAndInx[1][0]])
 
-    # inxParents = np.random.choice(a=inxPop, p=fitnessList, size=10)
-    # for x in inxParents:
-    #     parents.append(pop[x])
-
-    playersCount = 2**(round(np.sqrt(tSize * list.count(pop)))) 
+    playersCount = 2**(round(np.sqrt(tSize * len(pop)))) 
 
     #multiplico tSize(porcentaje de pop que van a torneo) por size de pop
     #redondeo el numero a numero entero y hago 2 elevado al resultado para que de una cantidad
@@ -87,14 +84,21 @@ def selectionTournament(pop,isElite:bool,tSize):
 
     for i in range(size):
         players=np.random.choice(a=inxPop, size=playersCount)
-        partialWinners=[]
-##
-        for j in range(0,playersCount-1,2): 
-            p1 = []
-            p2 = []
-            p1 = players[i]
-            p2 = players[i+1]
+        players= list(players)
+        while len(players) > 1:
 
+            for i in range(len(players)//2):
+
+                if fitnessList[players[i]] > fitnessList[players[i+1]]:
+                    winner = 0
+                else:
+                    winner = 1
+                players.pop(i + (1 - winner))
+
+        inxParents.extend(players)
+
+    for x in inxParents:
+        parents.append(pop[x])
 
 
     return parents
@@ -118,17 +122,3 @@ def mutation(ind):
         ind[point] = 0
     return ind
 
-
-# %%
-#population = initializePopulation()
-#
-#decimalPopulation = map(binaryToDecimal, population)
-#
-#print(list(decimalPopulation))
-#fitnessList = list(map(fitnessFunction, repeat(population), population))
-#print(fitnessList)
-#
-#parents = selection(population)
-#
-#print(list(map(binaryToDecimal, parents)))
-# %%
