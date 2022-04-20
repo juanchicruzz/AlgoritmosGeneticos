@@ -1,8 +1,9 @@
 #%%
 import Functions as fc
 import numpy as np
+import graficos as g
 
-cycles = 20
+cycles = 100
 tournamentSize = 0.4
 
 
@@ -13,13 +14,11 @@ maxList=[max(objFuncPopulation)]
 promList=[np.average(objFuncPopulation)]
 minList=[min(objFuncPopulation)]
 
-#print(maxList)
-#print(minList)
-#print(promList)
+
 #%%
 
 for i in range(0,cycles):
-    parents = fc.selection(population)
+    parents = fc.selection(population,False)
     nextGeneration = []
     for i in range(0,9,2): #creo que aca puedo usar CHUNKS.
         ind1 = []
@@ -42,7 +41,8 @@ for i in range(0,cycles):
     minList.append(min(objFuncPopulation))
     population=nextGeneration
 
-print(maxList)
-print(minList)
-print(promList)
+g.graficarLista(maxList,"Maximos")
+g.graficarLista(minList,"Minimos")
+g.graficarLista(promList,"Promedios")
+
 # %%
