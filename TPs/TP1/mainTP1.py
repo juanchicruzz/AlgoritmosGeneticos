@@ -37,7 +37,7 @@ El orden de ejecucion del programa es:
 for i in range(0,cycles):
     parents = fc.selection(population,False)
     nextGeneration = []
-    for i in range(0,9,2): #i va saltando de 2 en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
+    for i in range(0,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
         ind1 = []
         ind2 = []
         ind1 = parents[i]
