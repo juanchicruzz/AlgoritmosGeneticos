@@ -7,7 +7,7 @@ from itertools import repeat
 
 # Definicion de variables reutilizadas
 crossoverProb: float = 0.75
-mutationProb: float = 0.15
+mutationProb: float = 0.05
 coef = (2**30)-1
 
 binaryList = [0, 1]

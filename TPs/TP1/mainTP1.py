@@ -11,7 +11,7 @@ tournamentSize = 0.4
 emp = " "
 #%%
 def ejecucion(cycles,initPopulation):
-#SELECCION RULETA SIN ELITISMO
+    print("SELECCION RULETA SIN ELITISMO")
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
     maxList=[max(objFuncPopulation)]
@@ -53,7 +53,7 @@ def ejecucion(cycles,initPopulation):
 
     # %%
 
-    #SELECCION RULETA CON ELITISMO
+    print("SELECCION RULETA CON ELITISMO")
 
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
@@ -95,7 +95,7 @@ def ejecucion(cycles,initPopulation):
 
     #%%
 
-    #SELECCION TORNEO SIN ELITISMO
+    print("SELECCION TORNEO SIN ELITISMO")
 
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
@@ -137,7 +137,7 @@ def ejecucion(cycles,initPopulation):
 
     #%%
 
-    #SELECCION TORNEO CON ELITISMO
+    print("SELECCION TORNEO CON ELITISMO")
 
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
