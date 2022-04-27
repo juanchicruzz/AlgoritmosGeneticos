@@ -2,7 +2,17 @@
 import os
 from PyInquirer import style_from_dict, Token, prompt, Separator
 
+
+
+# Limpieza de terminal.
 os.system ("cls")
+
+'''
+menu:
+    A traves de la libreria PyInquirier se crea un menu con las opciones de seleccion de estrategia, elitismo,
+    y el numero de iteraciones deseadas, para luego ejecutar el programa.
+'''
+
 def menu():
     questions = [
         {
