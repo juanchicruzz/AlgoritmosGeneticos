@@ -6,7 +6,7 @@ import numpy as np
 import graficos as g
 
 # Declaracion de variables estaticas reutilizables
-cycles = 100
+cycles = 1000
 tournamentSize = 0.4
 
 
