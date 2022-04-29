@@ -11,5 +11,5 @@ def graficarLista(lista,titulo):
     plt.xlabel('Corrida')
     plt.plot(lista, label='valores')  
     plt.legend()
-    plt.savefig('E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP1/OPG200/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
+    plt.savefig('E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP1/mutacion20/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
     plt.show()
