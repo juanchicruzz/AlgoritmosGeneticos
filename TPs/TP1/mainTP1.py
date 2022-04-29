@@ -4,6 +4,7 @@
 import Functions as fc
 import numpy as np
 import graficos as g
+import tablas as t
 
 # Declaracion de variables estaticas reutilizables
 
@@ -49,6 +50,8 @@ def ejecucion(cycles,initPopulation):
     g.graficarLista(maxList,"Maximos Ruleta s/ Elitismo")
     g.graficarLista(minList,"Minimos Ruleta s/ Elitismo")
     g.graficarLista(promList,"Promedios Ruleta s/ Elitismo")
+    t.guardarTabla(maxList,minList,promList,"Ruleta s/ Elitismo")
+
 
 
     # %%
@@ -92,6 +95,7 @@ def ejecucion(cycles,initPopulation):
     g.graficarLista(maxList,"Maximos Ruleta c/ Elitismo")
     g.graficarLista(minList,"Minimos Ruleta c/ Elitismo")
     g.graficarLista(promList,"Promedios Ruleta c/ Elitismo")
+    t.guardarTabla(maxList,minList,promList,"Ruleta c/ Elitismo")
 
     #%%
 
@@ -134,6 +138,7 @@ def ejecucion(cycles,initPopulation):
     g.graficarLista(maxList,"Maximos Torneo s/ Elitismo")
     g.graficarLista(minList,"Minimos Torneo s/ Elitismo")
     g.graficarLista(promList,"Promedios Torneo s/ Elitismo")
+    t.guardarTabla(maxList,minList,promList,"Torneo s/ Elitismo")
 
     #%%
 
@@ -176,3 +181,4 @@ def ejecucion(cycles,initPopulation):
     g.graficarLista(maxList,"Maximos Torneo c/ Elitismo")
     g.graficarLista(minList,"Minimos Torneo c/ Elitismo")
     g.graficarLista(promList,"Promedios Torneo c/ Elitismo")
+    t.guardarTabla(maxList,minList,promList,"Torneo c/ Elitismo")
