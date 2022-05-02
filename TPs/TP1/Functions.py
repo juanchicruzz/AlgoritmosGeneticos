@@ -7,7 +7,7 @@ from itertools import repeat
 
 # Definicion de variables reutilizadas
 crossoverProb: float = 0.75
-mutationProb: float = 0.20
+mutationProb: float = 0.05
 coef = (2**30)-1
 
 binaryList = [0, 1]
@@ -118,7 +118,16 @@ def selectionTournament(pop:list,isElite:bool,tSize:float):
         parents.append(pop[fitAndInx[1][0]])
 
     # Se filtran la cantidad de jugadores para que de un numero exacto de cruces posibles
-    playersCount = 2**(round(np.sqrt(tSize * len(pop)))) 
+    #playersCount = 2**(round(np.sqrt(tSize * len(pop)))) 
+    
+    playersCount = 0
+    countPotencia = 1
+    while playersCount < (tSize * len(pop)):
+        anterior = playersCount
+        playersCount = 2^countPotencia
+        countPotencia += 1
+
+    playersCount = anterior
 
     # Se seleccionan los padres al azar, compiten hasta quedar uno solo y se guarda en la lista de padres
     for i in range(size):
