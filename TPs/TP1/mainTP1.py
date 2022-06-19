@@ -66,7 +66,12 @@ def ejecucion(cycles,initPopulation):
     for j in range(0,cycles):
         parents = fc.selection(population,True)
         nextGeneration = []
-        for i in range(0,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
+        
+        #Se agregan los dos primeros por elitismo
+        nextGeneration.append(parents[0])
+        nextGeneration.append(parents[1])
+
+        for i in range(2,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
             ind1 = []
             ind2 = []
             ind1 = parents[i]
@@ -152,7 +157,12 @@ def ejecucion(cycles,initPopulation):
     for j in range(0,cycles):
         parents = fc.selectionTournament(population,True,tournamentSize)
         nextGeneration = []
-        for i in range(0,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
+
+        #Se agregan los dos primeros por elitismo
+        nextGeneration.append(parents[0])
+        nextGeneration.append(parents[1])
+
+        for i in range(2,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
             ind1 = []
             ind2 = []
             ind1 = parents[i]

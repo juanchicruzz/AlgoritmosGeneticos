@@ -117,8 +117,9 @@ def selectionTournament(pop:list,isElite:bool,tSize:float):
         parents.append(pop[fitAndInx[0][0]])
         parents.append(pop[fitAndInx[1][0]])
 
-    # Se filtran la cantidad de jugadores para que de un numero exacto de cruces posibles
-    #playersCount = 2**(round(np.sqrt(tSize * len(pop)))) 
+    # Se filtran la cantidad de jugadores para que de un numero exacto de cruces posibles POTENCIA DE 2
+
+    #playersCount = 2**(round(np.sqrt(tSize * len(pop)))) ESTO ESTABA MAL
     
     playersCount = 0
     countPotencia = 1
