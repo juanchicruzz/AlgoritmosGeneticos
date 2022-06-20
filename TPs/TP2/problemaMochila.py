@@ -11,9 +11,11 @@ valor en $ sea máximo.
 '''
 from itertools import chain, combinations
 import pandas as pd
+import tablas
 
 def allSubsets(iterable):
     s = list(iterable)
+    print(s)
     return chain.from_iterable(combinations(s, r) for r in range(1 ,len(s)+1))
 
 
@@ -48,6 +50,7 @@ mochilaMax = 4200
 #exhaustivo
 
 subsets = list(allSubsets(objetos))
+print(subsets)
 
 listaConValores = [totalVolumeAndValue(el) for el in subsets]
 
@@ -56,4 +59,7 @@ dfValores = pd.DataFrame(listaConValores, columns=['elementos', 'valor', 'volume
 dfValores.sort_values(by=['valor'], ascending=False, inplace=True)
 filtradoMax= dfValores[dfValores['volumen'] <= mochilaMax]
 
-print("a")
+tablas.guardarTabla(filtradoMax,"resultados")
+
+
+
