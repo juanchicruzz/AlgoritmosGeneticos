@@ -2,6 +2,10 @@ from itertools import chain, combinations
 import pandas as pd
 import tablas
 
+# Funciones de greedy 
+
+#Objeto - numero , volumen , valor
+
 objetos = [
     ('1', 150, 20),
     ('2', 325, 40),
@@ -17,12 +21,9 @@ objetos = [
 mochilaMax = 4200
 lista = list(objetos)
 valores = []
-
-for i in lista:
-    iVi = i[2] / i[1]
-    valores.append(iVi)
+row = 0
+for i in range(0,9):
+    iVi = lista[i][2] / lista[i][1]
+    lista[i] = (*lista[i], iVi)
 
 print(lista)
-print(valores)
-
-
