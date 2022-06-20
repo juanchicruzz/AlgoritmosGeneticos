@@ -21,9 +21,26 @@ objetos = [
 mochilaMax = 4200
 lista = list(objetos)
 valores = []
-row = 0
-for i in range(0,9):
+for i in range(0,10):
     iVi = lista[i][2] / lista[i][1]
     lista[i] = (*lista[i], iVi)
 
-print(lista)
+
+dfValores = pd.DataFrame(lista, columns=['elemento', 'volumen', 'valor','iVi'])
+dfValores.sort_values(by=['iVi'], ascending=False, inplace=True)
+
+resultado = []
+vActual = 0
+valorTotal = 0
+for index, row in dfValores.iterrows():
+    if vActual <= mochilaMax:
+        if( (vActual+row['volumen']) <= mochilaMax):
+            resultado.append(row['elemento'])
+            vActual = vActual + row['volumen']
+            valorTotal = valorTotal + row['valor']
+    else: continue
+
+print(resultado)
+print(vActual)
+print(valorTotal)
+
