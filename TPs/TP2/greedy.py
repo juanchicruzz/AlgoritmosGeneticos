@@ -1,43 +1,48 @@
-from itertools import chain, combinations
 import pandas as pd
 import Utils as U
 
-# Funciones de greedy 
+def EjecutaGreedy(vol:bool):
 
-#Objeto - numero , volumen , valor
+    #vol -> flag que permite cambiar entre problema 1 o 2.
 
-if (False):
-    objetos = U.objetosVolumen
-    mochilaMax = U.maxVolumen
-else:
-    objetos = U.objetosPeso
-    mochilaMax = U.maxPeso
+    if (vol):
+        objetos = U.objetosVolumen
+        mochilaMax = U.maxVolumen
+    else:
+        objetos = U.objetosPeso
+        mochilaMax = U.maxPeso
 
+    ''' Recorre la lista de objetos y la aplica la funcion heuristica
+        y lo agrega a la tupla. '''
 
-lista = list(objetos)
-valores = []
-for i in range(0,len(objetos)):
-    iVi = lista[i][2] / lista[i][1]
-    lista[i] = (*lista[i], iVi)
+    lista = list(objetos)
+    for i in range(0,len(objetos)):
+        iVi = lista[i][2] / lista[i][1]
+        lista[i] = (*lista[i], iVi)
 
+    # Trasforma la lista en una TABLA y ordena de mayor a menos por el ivi.
 
-dfValores = pd.DataFrame(lista, columns=['elemento', 'volumen', 'valor','iVi'])
-dfValores.sort_values(by=['iVi'], ascending=False, inplace=True)
-print(dfValores)
-resultado = []
-vActual = 0
-valorTotal = 0
-for index, row in dfValores.iterrows():
+    dfValores = pd.DataFrame(lista, columns=['elemento', 'volumen', 'valor','iVi'])
+    dfValores.sort_values(by=['iVi'], ascending=False, inplace=True)
 
-    if( (vActual+row['volumen']) <= mochilaMax):
-        resultado.append(row['elemento'])
-        vActual = vActual + row['volumen']
-        valorTotal = valorTotal + row['valor']
+    resultado = []
+    vActual = 0
+    valorTotal = 0
 
+    ''' Recorre la tabla de objetos y los agrega al resultado final si y solo si, la suma de 
+        los volumenes no supera el maximo de la mochila.
+        si supera, no lo agrega y sigue con el proximo elemento. '''
 
-print(resultado)
-print(vActual)
-print(valorTotal)
+    for index, row in dfValores.iterrows():
+
+        if( (vActual+row['volumen']) <= mochilaMax):
+            resultado.append(row['elemento'])
+            vActual = vActual + row['volumen']
+            valorTotal = valorTotal + row['valor']
+
+    print(resultado)
+    print(vActual)
+    print(valorTotal)
 
 
 
