@@ -10,6 +10,7 @@ combinations(s, r) -> devuelve todas las combinaciones de r elementos de s.
 por lo tanto repetimos esto variando r de 1 a len(s)+1. 
 +1 porque Range(1,10) seria [1,2,3,4,5,6,7,8,9]
 entonces debemos agregar uno para llegar a toda la extencion del conjunto.
+ej --> Cojunto([1,2,3]) --> [(1,), (2,), (3,), (1,2), (1,3), (2,3), (1,2,3)]
 '''
 
 def allSubsets(iterable):
@@ -66,6 +67,9 @@ def EjecutaExhaustivo(vol:bool):
     dfValores.sort_values(by=['valor'], ascending=False, inplace=True)
 
     filtradoMax= dfValores[dfValores['volumen'] <= (mochilaMax)]
+
+    nombre = ("Exhaustivo_" + ("Volumen" if vol else "Peso" ))
+    U.guardarTabla(filtradoMax, nombre)
 
     print(filtradoMax)
 

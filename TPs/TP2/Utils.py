@@ -1,5 +1,4 @@
 import string
-import pandas as pd
 import xlsxwriter as xs
 
 objetosVolumen = [
@@ -27,5 +26,5 @@ maxPeso = 3000
 
 def guardarTabla(valores,titulo):
     tituloOP:string = 'AG_TP2_' + str(titulo.replace(" ","_").replace("/",""))
-    workbook = xs.Workbook('D:/Visual Studio Code/Github/AlgoritmosGeneticos/TPs/TP2/ResultadosExhaustivo/' + tituloOP + '.xlsx')
-    valores.to_excel(excel_writer='D:/Visual Studio Code/Github/AlgoritmosGeneticos/TPs/TP2/ResultadosExhaustivo/' + tituloOP + '.xlsx')
+    workbook = xs.Workbook('E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP2/ResultadosExhaustivo/' + tituloOP + '.xlsx')
+    valores.to_excel(excel_writer='E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP2/ResultadosExhaustivo/' + tituloOP + '.xlsx')
