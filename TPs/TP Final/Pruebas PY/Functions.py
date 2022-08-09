@@ -1,4 +1,4 @@
-# %%
+#%%
 # Importacion de librerias
 import numpy as np
 import pandas as pd
@@ -6,6 +6,12 @@ import random
 from itertools import repeat
 
 # Definicion de variables reutilizadas
+d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
+df = pd.DataFrame(data=d)
+
+#%%
+
+seedMatrix = [1 if x <= 24 else 0 for x in range(100)]
 crossoverProb: float = 0.75
 mutationProb: float = 0.20
 cant_poblacion: int = 50
@@ -22,14 +28,16 @@ binaryList = [0, 1]
 # %%
 # Definicion de funciones
 
+
+
 '''
- binaryToDecimal:
-  Funcion que recibe una lista conformada por una secuencia de 0 y 1 que se revierte,
-  luego se enumera de la forma (posicion, valor) y se hace una sumatoria de 2 elevado a la posicion de
-  cada elemento de la lista multiplicado por el valor de ese mismo elemento.
+    Recibe viento y distancia hasta el proximo aerogenerador
+    Devuelve el viento que RECIBE el proximo aerogenerador
 '''
-def binaryToDecimal(binary):
-    return sum(val*(2**idx) for idx, val in enumerate(reversed(binary)))
+
+def windAfterGenerator(wind,distance):
+    windAffected = wind*(1-(2*coef_induccionAxial/((1+coef_arrastre+(distance/diametroTurbina/2))**2)))
+    return windAffected
 
 
 '''
@@ -38,7 +46,7 @@ def binaryToDecimal(binary):
   y luego se retorna la funcion objetivo del problema (x/coeficiente)^2.
 '''
 def objFunction(individual: list):
-    x = binaryToDecimal(individual)
+    
     return 1
 
 '''
@@ -57,7 +65,7 @@ def fitnessFunction(pop: list, individual):
   Funcion que retorna un individuo aleatorio con 30 genes.
 '''
 def randomIndividual():
-    individual = np.mod(np.random.permutation(10*10).reshape(10,10),2)
+    individual = np.random.permutation(seedMatrix).reshape(10,10)
     return individual
 
 '''
