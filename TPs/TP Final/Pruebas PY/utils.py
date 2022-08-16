@@ -9,17 +9,37 @@ import numpy as np
 #Random Binary Matrix
 
 
-
-
+#------------------------------------ # Viento Este
+individual = np.mod(np.random.permutation(10*10).reshape(10,10),2)
 print(individual)
 
-#------------------------------------ # Viento Este
-#individual = np.mod(np.random.permutation(10*10).reshape(10,10),2)
+def FindNextAerogenerator(f,index):
+    cantidadCelda = 0
+    for i in range(index+1,len(f)):
+        if f[i] == 0:
+            cantidadCelda = cantidadCelda + 1
+        else:
+            cantidadCelda = cantidadCelda + 1
+            break
+    return cantidadCelda
 
 
-print("Viento  Este")
-print (individual)
-print("-----------------------")
+
+for indiceFila,fila in enumerate(individual):
+        windActual = 10
+        for indexActual,celda in enumerate(fila):
+            if celda == 1:
+                distancia = 0
+                print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
+                distancia =  FindNextAerogenerator(fila,indexActual) * 10
+                print(distancia)
+                
+
+
+
+#print("Viento  Este")
+#print (individual)
+#print("-----------------------")
 
 '''
 Pensando funcion Fitness
@@ -39,21 +59,21 @@ Pensando funcion Fitness
 
 #------------------------------------ # Viento Oeste
 a=[]
-print("Viento Oeste")
+#print("Viento Oeste")
 individualOeste = individual
 for j in range(len(individualOeste)):
     a.append(list(reversed(individualOeste[j])))
 mat = np.array(a)
-print(mat.reshape(10,10))
-print("-----------------------")
+#print(mat.reshape(10,10))
+#print("-----------------------")
 
 
 #------------------------------------ # Viento Norte
 
-print("Viento Norte")
+#print("Viento Norte")
 individualNorte = individual
 individualNorte = individualNorte.transpose()
-print(individual)
+#print(individual)
 
 
 #------------------------------------ # Viento Sur
@@ -65,8 +85,8 @@ a=[]
 for j in range(len(individualSur)):
     a.append(list(reversed(individualSur[j])))
 mat = np.array(a)
-print(mat.reshape(10,10))
-print("-----------------------")
+#print(mat.reshape(10,10))
+#print("-----------------------")
 
 
 

@@ -20,6 +20,7 @@ coef_arrastre = 0.05
 coef_induccionAxial = 0.333
 diametroTurbina = 47
 tamañoCelda = 94
+wind0 = 24
 
 
 
@@ -28,6 +29,15 @@ binaryList = [0, 1]
 # %%
 # Definicion de funciones
 
+def FindNextAerogenerator(f,index):
+    cantidadCelda = 0
+    for i in range(index+1,len(f)):
+        if f[i] == 0:
+            cantidadCelda = cantidadCelda + 1
+        else:
+            cantidadCelda = cantidadCelda + 1
+            break
+    return cantidadCelda
 
 
 '''
@@ -46,8 +56,15 @@ def windAfterGenerator(wind,distance):
   y luego se retorna la funcion objetivo del problema (x/coeficiente)^2.
 '''
 def objFunction(individual: list):
-    
-    return 1
+    for indiceFila,fila in enumerate(individual):
+        windActual = wind0
+        for indexActual,celda in enumerate(fila):
+            if celda == 1:
+                print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
+                distancia =  FindNextAerogenerator(fila,indexActual) * tamañoCelda
+                #definir cuando no se tiene en cuenta 2 celdas maso
+                windActual = windAfterGenerator(windActual,distancia)
+   
 
 '''
  fitnessFunction:
