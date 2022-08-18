@@ -6,8 +6,8 @@ import random
 from itertools import repeat
 
 # Definicion de variables reutilizadas
-d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
-df = pd.DataFrame(data=d)
+potencias = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
+dfpotencias = pd.DataFrame(data=potencias)
 
 #%%
 
@@ -56,14 +56,20 @@ def windAfterGenerator(wind,distance):
   y luego se retorna la funcion objetivo del problema (x/coeficiente)^2.
 '''
 def objFunction(individual: list):
+    potenciaIndividual = []
     for indiceFila,fila in enumerate(individual):
+        potenciaFila = []
         windActual = wind0
         for indexActual,celda in enumerate(fila):
             if celda == 1:
+                potenciaFila.append(dfpotencias['potencia'][dfpotencias['viento'] == round(windActual)].values[0].astype('int'))
                 print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
                 distancia =  FindNextAerogenerator(fila,indexActual) * tamañoCelda
-                #definir cuando no se tiene en cuenta 2 celdas maso
-                windActual = windAfterGenerator(windActual,distancia)
+                if distancia <= (2.3 * tamañoCelda):
+                    windActual = windAfterGenerator(windActual,distancia)
+            else:
+                potenciaFila.append(0)
+        potenciaIndividual.append(potenciaFila)
    
 
 '''

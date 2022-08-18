@@ -1,3 +1,4 @@
+from tkinter.tix import COLUMN
 import pandas as pd
 import numpy as np
 
@@ -36,7 +37,20 @@ for indiceFila,fila in enumerate(individual):
                 
 
 
+d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]}
 
+d = pd.DataFrame(d)
+print(d)
+d.sort_values(by=['viento'], ascending=False, inplace=True)
+potencias = []
+potencias.append(d['potencia'][d['viento'] == round(6)].values[0].astype('int'))
+potencias.append(d['potencia'][d['viento'] == round(11.5)].values[0].astype('int'))
+potencias.append(d['potencia'][d['viento'] == round(15.5)].values[0].astype('int'))
+potencias.append(d['potencia'][d['viento'] == round(24.5)].values[0].astype('int'))
+potencias.append(d['potencia'][d['viento'] == round(6)].values[0].astype('int'))
+potencias.append(0)
+
+print(potencias)
 #print("Viento  Este")
 #print (individual)
 #print("-----------------------")
