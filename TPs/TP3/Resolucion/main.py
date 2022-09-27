@@ -7,7 +7,7 @@ import numpy as np
 import statistics
 from tqdm import tqdm
 
-# --------------------------- OPCIÓN UNO --------------------------- #
+# ------------ ALGORITMO GREEDY --------------------------- #
 
 
 def greedy(inicial):
@@ -17,13 +17,13 @@ def greedy(inicial):
 
     provActual = inicial
     while (len(recorrido) < len(provincias)):
-        # me traigo la proxima ciudad sin haber sido recorrida
+        # get --> proxima ciudad sin haber sido recorrida
         provProx, distMin = datos.CalculaProvMinDistancia(provActual, recorrido)
         distTotal += distMin
         recorrido.append(provProx)
         provActual = provProx
 
-    # al terminar calculo la distancia entre el ultimo del recorrido y el inicial
+    # calculo la distancia entre la ultima capital del recorrido y la inicial
     distTotal += datos.CalculaDistancia(inicial, recorrido[-1])
     # y agrego al inicial al final del recorrido
     recorrido.append(inicial)
@@ -36,7 +36,7 @@ def MejorRecorrido(provincias):
     distMin = math.inf
     recorridoMin = []
 
-    # invoco el metodo greedy para cada provincia y me quedo con la mejor.
+    # utilizo greedy para cada capital y me quedo con la mejor.
     for p in provincias:
         recorrido, distancia = greedy(p)
         if(distancia < distMin):
@@ -285,8 +285,8 @@ print(" ----------------------------------------- ")
 op = input('Seleccione una opción: ')
 
 if(op == '1'):
-    provinciaInicial = fp.elegirProvincia()
-    recorrido, distTotal = greedy(provinciaInicial)
+    capitalInicial = fp.elegirCapital()
+    recorrido, distTotal = greedy(capitalInicial)
 if(op == '2'):
     recorrido, distTotal = MejorRecorrido(provincias)
 if(op == '3'):
@@ -294,4 +294,3 @@ if(op == '3'):
 
 
 fp.realizarRecorrido(recorrido, distTotal)
-print("FIN")
