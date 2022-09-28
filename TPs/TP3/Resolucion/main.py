@@ -1,10 +1,11 @@
-import funciones_pantalla as fp
+import funciones as f
 import datos
 import math
 import random
 import matplotlib.pyplot as plt
 import numpy as np
 import statistics
+import random
 from tqdm import tqdm
 
 # ------------ ALGORITMO GREEDY --------------------------- #
@@ -49,60 +50,44 @@ def MejorRecorrido(provincias):
 
 def rellenarPoblacionInicial(cantCromosomas):
     poblacion = []
-
     for j in range(cantCromosomas):
-        # relleno numeros del 1 al 24
-        numeros = []
+        individuo = []
         for i in range(24):
-            numeros.append(i)
-        cromosoma = []
-        for i in range(len(numeros)):
-            # elijo un numero del arreglo numeros
-            numero = random.choice(numeros)
-            # agrego al cromosoma el numero seleccionado
-            cromosoma.append(numero)
-            # luego lo borro
-            numeros.remove(numero)
-        poblacion.append(cromosoma)
-
+            individuo.append(i)         #genero una lista del 0 al 24
+        random.shuffle(individuo)       #desordeo de forma aleatoria al individuo
+        poblacion.append(individuo)
     return poblacion
 
 
 def funcionObjetivo(recorrido):
-    return 1/datos.CalculaDistanciaDeRecorrido(recorrido)
+    return 1/datos.CalculaDistanciaDeRecorrido(recorrido)   # 1/distancia recorrida -> menor distancia mejor puntuacion
 
 
 def rellenarFuncionesObjetivoYFitness(poblacion):
     # rellenar F objetivo
     listaFObjetivo = []
     listaFitness = []
-    arregloComplemento = []
 
     for i in range(len(poblacion)):
         listaFObjetivo.append(funcionObjetivo(poblacion[i]))
 
     # rellenar F fitness.
-    sumatotal = sum(listaFObjetivo)
+    sumatotal = sum(listaFObjetivo) #calculo el total de la poblacion
 
-
-    sumatotal = sum(arregloComplemento)
     for i in range(len(poblacion)):
-        listaFitness.append(listaFObjetivo[i] / sumatotal)
+        listaFitness.append(listaFObjetivo[i] / sumatotal) #calculo la proporcion de cada individuo de la poblacion
 
     return listaFitness, listaFObjetivo
 
 
-def seleccionarPareja(poblacion, listaFitness):
+def ruleta(poblacion, listaFitness):
     pareja = []
-
-
     inxPop = [inx for inx, val in enumerate(poblacion)]
 
     # elijo cada uno de los padres.
     for veces in range(2):
-        indice = np.random.choice(a=inxPop, p=listaFitness, size=2)
-        pareja.append(poblacion[indice])
-
+        indice = np.random.choice(a=inxPop, p=listaFitness, size=1) # ruleta proporcional al fitnes
+        pareja.append(poblacion[sum(indice)])
     return pareja
 
 
@@ -150,10 +135,10 @@ def mutacion(hijoOriginal, prob):
 
 
 def mostrarGraficasEnPantalla(ejeX, minimos, maximos, media, minHistorico):
-    plt.plot(ejeX, minimos, label='Minimos', linewidth=4, color="red", alpha=0.6)
-    plt.plot(ejeX, maximos, label='Maximos', linewidth=4, color="blue", alpha=0.6)
-    plt.plot(ejeX, media, label='Media', linewidth=4, color="green", alpha=0.6)
-    plt.plot(ejeX, minHistorico, label='Mejor Historico', linewidth=4, color="purple", alpha=0.2)
+    plt.plot(ejeX, minimos, label='Minimos', linewidth=2, color="red", alpha=0.6)
+    plt.plot(ejeX, maximos, label='Maximos', linewidth=2, color="blue", alpha=0.6)
+    plt.plot(ejeX, media, label='Media', linewidth=2, color="green", alpha=0.6)
+    plt.plot(ejeX, minHistorico, label='Mejor Historico', linewidth=2, color="black", alpha=1)
 
     plt.legend()
     plt.ylabel(' Valor de la Funcion Objetivo ')
@@ -162,7 +147,7 @@ def mostrarGraficasEnPantalla(ejeX, minimos, maximos, media, minHistorico):
 
 
 def elitismo(poblacion, listaFitness, cantElite):
-    # Creamos una copia de la lista (Fitness u objetivo), elegimos el mejor, lo borramos
+    # Creamos una copia de la lista (Fitness u objetivo), elegimos el mejor(el max), lo borramos
     # y volvemos a elegir el mejor. Luego sacamos los indices en el arreglo original.
     # y agregamos en la proximaGeneracion la poblacion en el indice de los mejores.
 
@@ -171,7 +156,7 @@ def elitismo(poblacion, listaFitness, cantElite):
     elites = []
 
     for i in range(cantElite):
-        mejor = min(copiaFitness)
+        mejor = max(copiaFitness)
         indiceMejor.append(listaFitness.index(mejor))
         copiaFitness.remove(mejor)
 
@@ -182,21 +167,22 @@ def elitismo(poblacion, listaFitness, cantElite):
 
 
 def Genetico(provincias):
+    # Arreglo de poblaciones.
     poblacion = []
     proximaGeneracion = []
 
-    # Lista F objetivo y F Fitness.
+    # F objetivo y F Fitness.
     listaFObjetivo = []
     listaFitness = []
 
-    # Parametros.
+    # Parametros iniciales.
     cantMaximaGeneraciones = 200
     cantIndividuosEnPoblacion = 50
     p_crossover = 0.9
     p_mutacion = 0.15
 
-    # arreglos para las graficas.
-    mostrarGraficas = True  # si no se quieren mostrar graficas de rendimiento poner en false.
+    # arreglos graficos.
+    mostrarGraficas = True 
     ejeX = []
     minimos = []
     maximos = []
@@ -216,7 +202,7 @@ def Genetico(provincias):
     listaFitness, listaFObjetivo = rellenarFuncionesObjetivoYFitness(poblacion)
 
     # variables para guardar los mejores.
-    distMinima = math.inf
+    distMinima = 0
     MejorRecorrido = []
 
     cantidadCiclos = 0
@@ -226,7 +212,6 @@ def Genetico(provincias):
 
         for i in range(cantMaximaGeneraciones):
             barra.update()
-
             cantidadCiclos += 1
             # aplica el ELITISMO
             if(hayElitismo):
@@ -234,7 +219,7 @@ def Genetico(provincias):
 
             for i in range(int((len(poblacion) - cantElite) / 2)):
                 # seleccionar 2 individuos para el cruce
-                padres = seleccionarPareja(poblacion, listaFitness)
+                padres = ruleta(poblacion, listaFitness)
                 # cruzar con cierta probabilidad 2 individuos y obtener descendientes
                 hijo1, hijo2 = crossover(padres, p_crossover)
                 # Mutar con cierta probabilidad
@@ -253,19 +238,21 @@ def Genetico(provincias):
             listaFitness, listaFObjetivo = rellenarFuncionesObjetivoYFitness(poblacion)
 
             # calculo el mejor
-            menorDistancia = min(listaFObjetivo)
-            if(menorDistancia <= distMinima):
-                distMinima = menorDistancia
-                MejorRecorrido = poblacion[listaFObjetivo.index(menorDistancia)]
+            mejorFObjetivo = max(listaFObjetivo) # max porq esta inverso 
+            if(mejorFObjetivo >= distMinima):    # cambio a mayor y distMin inicial = 0 
+                distMinima = mejorFObjetivo
+                MejorRecorrido = poblacion[listaFObjetivo.index(mejorFObjetivo)]
 
             # guardo los arreglos para generar las graficas
             if(mostrarGraficas):
                 # guardo los mejores, peores y la media de esta generacion
                 ejeX.append(cantidadCiclos)
-                minimos.append(min(listaFObjetivo))
-                maximos.append(max(listaFObjetivo))
-                medias.append(statistics.mean(listaFObjetivo))
-                minHistorico.append(distMinima)
+                listaFObjetivoOriginal = list(map(lambda x: x**-1,listaFObjetivo))
+                minimos.append(min(listaFObjetivoOriginal))
+                maximos.append(max(listaFObjetivoOriginal))
+                medias.append(statistics.mean(listaFObjetivoOriginal))
+                mejorDistancia = int(distMinima**-1)
+                minHistorico.append(mejorDistancia)
 
         if(mostrarGraficas):
             mostrarGraficasEnPantalla(ejeX, minimos, maximos, medias, minHistorico)
@@ -285,7 +272,7 @@ print(" ----------------------------------------- ")
 op = input('Seleccione una opción: ')
 
 if(op == '1'):
-    capitalInicial = fp.elegirCapital()
+    capitalInicial = f.elegirCapital()
     recorrido, distTotal = greedy(capitalInicial)
 if(op == '2'):
     recorrido, distTotal = MejorRecorrido(provincias)
@@ -293,4 +280,4 @@ if(op == '3'):
     recorrido, distTotal = Genetico(provincias)
 
 
-fp.realizarRecorrido(recorrido, distTotal)
+f.realizarRecorrido(recorrido, distTotal)
