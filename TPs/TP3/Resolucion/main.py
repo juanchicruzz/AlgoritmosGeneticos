@@ -53,7 +53,7 @@ def rellenarPoblacionInicial(cantCromosomas):
     for j in range(cantCromosomas):
         individuo = []
         for i in range(24):
-            individuo.append(i)         #genero una lista del 0 al 24
+            individuo.append(i)         #genero una lista del 0 al 23 (24 provincias contando capital federal)
         random.shuffle(individuo)       #desordeo de forma aleatoria al individuo
         poblacion.append(individuo)
     return poblacion
