@@ -86,7 +86,7 @@ def ruleta(poblacion, listaFitness):
 
     # elijo cada uno de los padres.
     for veces in range(2):
-        indice = np.random.choice(a=inxPop, p=listaFitness, size=1) # ruleta proporcional al fitnes
+        indice = np.random.choice(a=inxPop, p=listaFitness, size=1) # ruleta proporcional al fitnes/ --> [7] --> sum[7] --> 7
         pareja.append(poblacion[sum(indice)])
     return pareja
 
@@ -206,58 +206,54 @@ def Genetico(provincias):
     MejorRecorrido = []
 
     cantidadCiclos = 0
-    # esta linea es para que se muestre una barra de carga con ciertas opciones
-    with tqdm(total=cantMaximaGeneraciones, ncols=60,
-              bar_format="{desc}: >{percentage:.0f}%|{bar}| Generación: {n_fmt}/{total_fmt}") as barra:
 
-        for i in range(cantMaximaGeneraciones):
-            barra.update()
-            cantidadCiclos += 1
-            # aplica el ELITISMO
-            if(hayElitismo):
-                proximaGeneracion += elitismo(poblacion, listaFObjetivo, cantElite)
+    for i in range(cantMaximaGeneraciones):
+        cantidadCiclos += 1
+        # aplica el ELITISMO
+        if(hayElitismo):
+            proximaGeneracion += elitismo(poblacion, listaFObjetivo, cantElite)
 
-            for i in range(int((len(poblacion) - cantElite) / 2)):
-                # seleccionar 2 individuos para el cruce
-                padres = ruleta(poblacion, listaFitness)
-                # cruzar con cierta probabilidad 2 individuos y obtener descendientes
-                hijo1, hijo2 = crossover(padres, p_crossover)
-                # Mutar con cierta probabilidad
-                hijomutado1 = mutacion(hijo1, p_mutacion)
-                hijomutado2 = mutacion(hijo2, p_mutacion)
+        for i in range(int((len(poblacion) - cantElite) / 2)):
+            # seleccionar 2 individuos para el cruce
+            padres = ruleta(poblacion, listaFitness)
+            # cruzar con cierta probabilidad 2 individuos y obtener descendientes
+            hijo1, hijo2 = crossover(padres, p_crossover)
+            # Mutar con cierta probabilidad
+            hijomutado1 = mutacion(hijo1, p_mutacion)
+            hijomutado2 = mutacion(hijo2, p_mutacion)
 
-                proximaGeneracion.append(hijomutado1)
-                proximaGeneracion.append(hijomutado2)
+            proximaGeneracion.append(hijomutado1)
+            proximaGeneracion.append(hijomutado2)
 
-            poblacion = proximaGeneracion.copy()
-            proximaGeneracion = []
-            listaFObjetivo = []
-            listaFitness = []
+        poblacion = proximaGeneracion.copy()
+        proximaGeneracion = []
+        listaFObjetivo = []
+        listaFitness = []
 
-            # rellena funcion fitness y objetivo.
-            listaFitness, listaFObjetivo = rellenarFuncionesObjetivoYFitness(poblacion)
+        # rellena funcion fitness y objetivo.
+        listaFitness, listaFObjetivo = rellenarFuncionesObjetivoYFitness(poblacion)
 
-            # calculo el mejor
-            mejorFObjetivo = max(listaFObjetivo) # max porq esta inverso 
-            if(mejorFObjetivo >= distMinima):    # cambio a mayor y distMin inicial = 0 
-                distMinima = mejorFObjetivo
-                MejorRecorrido = poblacion[listaFObjetivo.index(mejorFObjetivo)]
+        # calculo el mejor
+        mejorFObjetivo = max(listaFObjetivo) # max porq esta inverso 
+        if(mejorFObjetivo >= distMinima):    # cambio a mayor y distMin inicial = 0 
+            distMinima = mejorFObjetivo
+            MejorRecorrido = poblacion[listaFObjetivo.index(mejorFObjetivo)]
 
-            # guardo los arreglos para generar las graficas
-            if(mostrarGraficas):
-                # guardo los mejores, peores y la media de esta generacion
-                ejeX.append(cantidadCiclos)
-                listaFObjetivoOriginal = list(map(lambda x: x**-1,listaFObjetivo))
-                minimos.append(min(listaFObjetivoOriginal))
-                maximos.append(max(listaFObjetivoOriginal))
-                medias.append(statistics.mean(listaFObjetivoOriginal))
-                mejorDistancia = int(distMinima**-1)
-                minHistorico.append(mejorDistancia)
-
+        # guardo los arreglos para generar las graficas
         if(mostrarGraficas):
-            mostrarGraficasEnPantalla(ejeX, minimos, maximos, medias, minHistorico)
+            # guardo los mejores, peores y la media de esta generacion
+            ejeX.append(cantidadCiclos)
+            listaFObjetivoOriginal = list(map(lambda x: x**-1,listaFObjetivo))
+            minimos.append(min(listaFObjetivoOriginal))
+            maximos.append(max(listaFObjetivoOriginal))
+            medias.append(statistics.mean(listaFObjetivoOriginal))
+            mejorDistancia = int(distMinima**-1)
+            minHistorico.append(mejorDistancia)
 
-        return datos.mapearRecorrido(MejorRecorrido + [MejorRecorrido[0]]), datos.CalculaDistanciaDeRecorrido(MejorRecorrido)
+    if(mostrarGraficas):
+        mostrarGraficasEnPantalla(ejeX, minimos, maximos, medias, minHistorico)
+
+    return datos.mapearRecorrido(MejorRecorrido + [MejorRecorrido[0]]), datos.CalculaDistanciaDeRecorrido(MejorRecorrido)
 
 # --------------------------- MAIN --------------------------- #
 
