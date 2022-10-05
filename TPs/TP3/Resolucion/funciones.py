@@ -2,7 +2,7 @@
 # defino algunos colores
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
+GREEN = (137, 172, 118)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 tamaño_circulo = 6
@@ -15,13 +15,13 @@ def DibujaCirculo(p, screen, color):
     import pygame
     # declaro la fuente de texto que voy a usar
     pygame.font.init()
-    myfont = pygame.font.SysFont('Calibri', 14)
+    myfont = pygame.font.SysFont('Arial', 15)
     # dibuja un circulo en una posicion x y
     global tamaño_circulo
     pygame.draw.circle(screen, color, (p[2], p[3]), tamaño_circulo)
 
     # para que imprima el texto de la provincia.
-    textsurface = myfont.render(p[0], False, RED)
+    textsurface = myfont.render(p[0], False, BLACK)
     screen.blit(textsurface, (p[2] + 10, p[3] - 10))
 
 
@@ -45,13 +45,13 @@ def inicializarPantalla():
     # cargo la imagen en la variable mapa.
 
     dir_file = os.path.dirname(os.path.abspath(__file__))
-    dir_img = dir_file + "\\mapaCapitales.png"
+    dir_img = dir_file + "\\mapaArgentina.jpg"
     mapa = pygame.image.load(r"{}".format(dir_img))
 
     # imagen se ajuste a el tamaño de pantalla.
     mapa = pygame.transform.scale(mapa, (tamaño_x, tamaño_y))
     screen.blit(mapa, (0, 0))
-    # dibujo circulos para cada provincia.
+    # dibujo circulos para cada capital.
     for p in provincias:
         DibujaCirculo(p, screen, BLACK)
     pygame.display.update()
@@ -106,7 +106,7 @@ def realizarRecorrido(recorrido, dist):
         # dibujo una linea desde la provincia i hasta la i+1.
         p1 = recorrido[i]
         p2 = recorrido[i + 1]
-        pygame.draw.line(screen, BLUE, (p1[2], p1[3]), (p2[2], p2[3]), 3)
+        pygame.draw.line(screen, GREEN, (p1[2], p1[3]), (p2[2], p2[3]), 2)
         pygame.display.update()
         sleep(0.1)
 
@@ -115,7 +115,7 @@ def realizarRecorrido(recorrido, dist):
     rect = pygame.Rect(0, 0, 850, 40)
     pygame.draw.rect(screen, BLACK, rect)
     # renderizo texto
-    textsurface = myfont.render('   ' + str(dist) + ' kilometros recorridos', False, RED)
+    textsurface = myfont.render('   ' + str(dist) + ' kilometros recorridos', False, WHITE)
     screen.blit(textsurface, (0, 2))
     pygame.display.update()
 
