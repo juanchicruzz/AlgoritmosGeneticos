@@ -2,33 +2,7 @@ import os
 import pandas as pd
 import math
 
-provincias2 = [
-    # Capital, posEnExcel
-    ("Cdad. de Bs. As.", 0, 514, 374),
-    ("Córdoba", 1, 363, 285),
-    ("Corrientes", 2, 517, 185),
-    ("Formosa", 3, 529, 142),
-    ("La Plata", 4, 530, 395),
-    ("La Rioja", 5, 289, 234),
-    ("Mendoza", 6, 241, 331),
-    ("Neuquén", 7, 273, 494),
-    ("Paraná", 8, 465, 300),
-    ("Posadas", 9, 593, 179),
-    ("Rawson", 10, 350, 610),
-    ("Resistencia", 11, 503, 170),
-    ("Río Gallegos", 12, 285, 844),
-    ("S.F.d.V.d. Catamarca", 13, 317, 206),
-    ("S.M. de Tucumán", 14, 331, 163),
-    ("S.S. de Jujuy", 15, 326, 88),
-    ("Salta", 16, 324, 104),
-    ("San Juan", 17, 246, 292),
-    ("San Luis", 18, 307, 338),
-    ("Santa Fe", 19, 455, 285),
-    ("Santa Rosa", 20, 365, 427),
-    ("Sgo. Del Estero", 21, 359, 185),
-    ("Ushuaia", 22, 308, 927),
-    ("Viedma", 23, 404, 545),
-]
+
 
 provincias = [
     # Capital, posEnExcel
@@ -44,7 +18,7 @@ provincias = [
     ("Posadas", 9, 623, 179),
     ("Rawson", 10, 370, 610),
     ("Resistencia", 11, 533, 170),
-    ("Río Gallegos", 12, 325, 844),
+    ("Río Gallegos", 12, 312, 844),
     ("S.F.d.V.d. Catamarca", 13, 357, 206),
     ("S.M. de Tucumán", 14, 361, 153),
     ("S.S. de Jujuy", 15, 366, 88),
@@ -54,7 +28,7 @@ provincias = [
     ("Santa Fe", 19, 485, 285),
     ("Santa Rosa", 20, 390, 427),
     ("Sgo. Del Estero", 21, 420, 170),
-    ("Ushuaia", 22, 348, 927),
+    ("Ushuaia", 22, 328, 927),
     ("Viedma", 23, 418, 545),
 ]
 

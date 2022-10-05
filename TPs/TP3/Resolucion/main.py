@@ -250,7 +250,9 @@ def Genetico(provincias):
             mejorDistancia = int(distMinima**-1)
             minHistorico.append(mejorDistancia)
 
+
     if(mostrarGraficas):
+
         mostrarGraficasEnPantalla(ejeX, minimos, maximos, medias, minHistorico)
 
     return datos.mapearRecorrido(MejorRecorrido + [MejorRecorrido[0]]), datos.CalculaDistanciaDeRecorrido(MejorRecorrido)
