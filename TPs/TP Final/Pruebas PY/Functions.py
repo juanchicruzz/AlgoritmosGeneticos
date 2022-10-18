@@ -13,7 +13,7 @@ dfpotencias = pd.DataFrame(data=potencias)
 seedMatrix = [1 if x <= 24 else 0 for x in range(100)]
 crossoverProb: float = 0.75
 mutationProb: float = 0.20
-cant_poblacion: int = 10
+cant_poblacion: int = 50
 cant_iteraciones: int = 15
 coef_arrastre = 0.05
 coef_induccionAxial = 0.333
@@ -74,10 +74,8 @@ def fitnessFunction(pop: list, individual):
     objFuncPopulation = list(map(objFunction, pop)) # same aca pero de la poblacion
     for i in range(2):
         objFuncPopulation = list(chain.from_iterable(objFuncPopulation))
-    print("potenciaIndividuo: ",sum(x))
     potenciaInd = sum(x)
     potenciaPoblacion = sum(objFuncPopulation)
-    print("potenciaPoblacion: ",sum(objFuncPopulation))
     return (potenciaInd / potenciaPoblacion)
     
 
@@ -213,6 +211,19 @@ def mutation(ind):
 
     ind = validarCantidadAerogeneradores(ind)
     return ind
+
+
+'''
+ Cast valores funciones Max - min - prom
+'''
+
+def castFuncionObjetivo(lista):
+    listaFuncionObjetivo = []
+    for potenciaIndividuo in lista:
+        potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
+        listaFuncionObjetivo.append(sum(potenciaIndividuo))
+    return listaFuncionObjetivo
+
 
 
 

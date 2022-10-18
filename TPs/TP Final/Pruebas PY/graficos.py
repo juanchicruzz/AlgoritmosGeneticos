@@ -11,6 +11,16 @@ def graficarLista(lista,titulo):
     plt.xlabel('Corrida')
     plt.plot(lista, label='valores')  
     plt.legend()
-    plt.savefig('E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP1/COLOQUIO/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
+    #plt.savefig('E:/MaquinaVieja/UTN/6t0/Algoritmos Geneticos/AlgoritmosGeneticos/TPs/TP1/COLOQUIO/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
     #plt.savefig('D:/Visual Studio Code/Github/AlgoritmosGeneticos/TPs/TP1/OPG200/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
+    plt.show()
+
+def graficarConjunto(ejeX, minimos, maximos, media):
+    plt.plot(ejeX, minimos, label='Minimos', linewidth=2, color="red", alpha=0.6)
+    plt.plot(ejeX, maximos, label='Maximos', linewidth=2, color="blue", alpha=0.6)
+    plt.plot(ejeX, media, label='Media', linewidth=2, color="green", alpha=0.6)
+
+    plt.legend()
+    plt.ylabel(' Valor de la Funcion Objetivo ')
+    plt.xlabel(' Generación ')
     plt.show()

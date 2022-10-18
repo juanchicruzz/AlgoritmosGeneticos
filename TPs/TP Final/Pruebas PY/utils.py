@@ -24,10 +24,6 @@ def FindNextAerogenerator(f,index):
             break
     return cantidadCelda
 
-
-                
-
-
 d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]}
 
 d = pd.DataFrame(d)
