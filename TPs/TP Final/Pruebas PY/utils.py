@@ -1,25 +1,23 @@
+from tkinter import N
 from tkinter.tix import COLUMN
+from typing import List
 import pandas as pd
 import numpy as np
 import Functions as f
+from itertools import repeat
+from itertools import chain
 
 
-#Tabla Vientos - Potencia
 
-#print(df)
+seedMatrix = [1 if x <= 25 else 0 for x in range(100)]
+individual1 = np.random.permutation(seedMatrix).reshape(10,10)
+individual2 = np.random.permutation(seedMatrix).reshape(10,10)
 
-#Random Binary Matrix
-
-
-#------------------------------------ # Viento Este
-individual1 = np.mod(np.random.permutation(10*10).reshape(10,10),2)
-print(individual1)
-individual2 = np.mod(np.random.permutation(10*10).reshape(10,10),2) 
-print(individual2)
-
-a,b = f.crossover(individual1,individual2)
-
-print(a,b)
+h1,h2 = f.crossover(individual1,individual2)
+print("HIJO 1")
+print(h1)
+print("HIJO 2")
+print(h2)
 
 
 def FindNextAerogenerator(f,index):
@@ -33,15 +31,6 @@ def FindNextAerogenerator(f,index):
     return cantidadCelda
 
 
-
-for indiceFila,fila in enumerate(individual):
-        windActual = 10
-        for indexActual,celda in enumerate(fila):
-            if celda == 1:
-                distancia = 0
-                #print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
-                distancia =  FindNextAerogenerator(fila,indexActual) * 10
-                #print(distancia)
                 
 
 
@@ -58,7 +47,7 @@ potencias.append(d['potencia'][d['viento'] == round(24.5)].values[0].astype('int
 potencias.append(d['potencia'][d['viento'] == round(6)].values[0].astype('int'))
 potencias.append(0)
 
-print(potencias)
+#print(potencias)
 #print("Viento  Este")
 #print (individual)
 #print("-----------------------")
@@ -82,7 +71,7 @@ Pensando funcion Fitness
 #------------------------------------ # Viento Oeste
 a=[]
 #print("Viento Oeste")
-individualOeste = individual
+individualOeste = individual1
 for j in range(len(individualOeste)):
     a.append(list(reversed(individualOeste[j])))
 mat = np.array(a)
@@ -93,16 +82,16 @@ mat = np.array(a)
 #------------------------------------ # Viento Norte
 
 #print("Viento Norte")
-individualNorte = individual
+individualNorte = individual1
 individualNorte = individualNorte.transpose()
-print(individualNorte)
-print(individualNorte.transpose())
+#print(individualNorte)
+#print(individualNorte.transpose())
 
 
 #------------------------------------ # Viento Sur
 
-print("Viento Sur")
-individualSur = individual
+#print("Viento Sur")
+individualSur = individual1
 individualSur = individualSur.transpose()
 a=[]
 for j in range(len(individualSur)):

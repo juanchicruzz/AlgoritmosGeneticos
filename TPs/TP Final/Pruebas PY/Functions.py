@@ -1,4 +1,3 @@
-#%%
 # Importacion de librerias
 import numpy as np
 import pandas as pd
@@ -101,7 +100,42 @@ def initializePopulation():
         a.append(randomIndividual())
     return a
 
-# %%
+
+def validarCantidadAerogeneradores(individuo):
+    cantidadAerogeneradoresActual = sum(sum(individuo)) # cuento cantidad actual de generadores
+    if (cantidadAerogeneradoresActual > 25):
+
+        individuo = np.array(individuo,dtype=object)
+        matrizObjetivo = objFunction(individuo) # calculo f.Objetivo del individuo
+
+        for i in range(len(matrizObjetivo)):
+            for j in range(len(matrizObjetivo[i])):
+                individuo[i][j] = (matrizObjetivo[i][j],individuo[i][j],i,j) # Genero matrix (potencia,aerogenerador,x,y)
+
+        individuo = list(chain.from_iterable(individuo))
+         
+        individuo.sort(key=lambda x: x[0], reverse=False) #Ordeno la lista de menor  a mayor segun potencia
+        
+        for i in range(len(individuo)): #Ordeno la lista de menor  a mayor segun potencia
+            if individuo[i][1] == 1:
+
+                listIndividual = list(individuo[i])
+                listIndividual[1] = 0   #Elimino aerogenerador
+                individuo[i] = tuple(listIndividual)
+
+                cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1 
+                if cantidadAerogeneradoresActual <= 25:
+                    break; #Finalizo bucle si tengo 25 generadores
+        
+
+        #Reorganizo el individuo segun las coordenadas de la matriz
+        individuo = ([(celda[2],celda[3],celda[1]) for celda in individuo])
+        individuo.sort(key=lambda x: (x[0],x[1]), reverse=False)
+        individuo = np.reshape([celda[2] for celda in individuo],(10, 10))
+
+    return individuo
+
+
 '''
  decision:
 '''
@@ -130,36 +164,43 @@ def selection(pop,isElite:bool):
     return parents
 
 
-'''
- crossover:
- clase
-
- casillero
- aerogenerador: boolean
- potencia: int
- fitness: float
- x: int
- y: int
-
-    [(aero,potencia,fitness,x,y)]
-'''
 def crossover(padre1, padre2):
+    padre1 = np.array(padre1,dtype=object)
+    padre2 = np.array(padre2,dtype=object)
     matrizObjetivo1 = objFunction(padre1)
-    matrizObjetivo2 = objFunction(padre1)
+    matrizObjetivo2 = objFunction(padre2)
     for i in range(len(matrizObjetivo1)):
         for j in range(len(matrizObjetivo1[i])):
-            padre1[i][j] = (padre1[i][j], matrizObjetivo1[i][j])
-            padre2[i][j] = (padre2[i][j], matrizObjetivo2[i][j])
+            padre1[i][j] = (matrizObjetivo1[i][j],padre1[i][j])
+            padre2[i][j] = (matrizObjetivo2[i][j],padre2[i][j])
 
-    listaFilas = list(chain.from_iterable(padre1))
-    listaFilas.extend(list(chain.from_iterable(padre2)))
-    listaColumna = list(chain.from_iterable(padre1.transpose()))
-    listaColumna.extend(list(chain.from_iterable(padre2.transpose())))
-    listaFilas.sort(key=lambda tup: sum(tup[2]), reverse=True)
-    listaColumna.sort(key=lambda tup: sum(tup[2]), reverse=True)
+
+    listaFilas = list((padre1))
+    listaFilas.extend(list((padre2)))
+
+    def potenciaFila(fila):
+        return (sum(i for i, j in fila))
+
+    listaColumna = list((padre1.transpose()))
+    listaColumna.extend(list((padre2.transpose())))
+
+    listaFilas.sort(key=lambda fila: potenciaFila(list(fila)), reverse=True)
+    listaColumna.sort(key=lambda fila: potenciaFila(list(fila)), reverse=True)
+
+    # Mejores Filas - Mejores Columnas
     newInd1 = listaFilas[:10]
     newInd2 = listaColumna[:10]
 
+    # Reescalado y restablecer matriz Original
+    newInd1 = list(chain.from_iterable(newInd1))
+    newInd2 = list(chain.from_iterable(newInd2))
+    newInd1 = np.reshape([celda[1] for celda in newInd1],(10, 10))
+    newInd2 = np.reshape([celda[1] for celda in newInd2],(10, 10))
+
+
+    # Validar Cant maxima de aerogeneradores por individuo
+    newInd1 = validarCantidadAerogeneradores(newInd1)
+    newInd2 = validarCantidadAerogeneradores(newInd1)
 
     return newInd1, newInd2
 
@@ -176,4 +217,4 @@ def mutation(ind):
     return ind
 
 
-# %%
+
