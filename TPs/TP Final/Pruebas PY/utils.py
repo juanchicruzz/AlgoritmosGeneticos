@@ -1,6 +1,7 @@
 from tkinter.tix import COLUMN
 import pandas as pd
 import numpy as np
+import Functions as f
 
 
 #Tabla Vientos - Potencia
@@ -11,8 +12,15 @@ import numpy as np
 
 
 #------------------------------------ # Viento Este
-individual = np.mod(np.random.permutation(10*10).reshape(10,10),2)
-print(individual)
+individual1 = np.mod(np.random.permutation(10*10).reshape(10,10),2)
+print(individual1)
+individual2 = np.mod(np.random.permutation(10*10).reshape(10,10),2) 
+print(individual2)
+
+a,b = f.crossover(individual1,individual2)
+
+print(a,b)
+
 
 def FindNextAerogenerator(f,index):
     cantidadCelda = 0
@@ -31,16 +39,16 @@ for indiceFila,fila in enumerate(individual):
         for indexActual,celda in enumerate(fila):
             if celda == 1:
                 distancia = 0
-                print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
+                #print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
                 distancia =  FindNextAerogenerator(fila,indexActual) * 10
-                print(distancia)
+                #print(distancia)
                 
 
 
 d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]}
 
 d = pd.DataFrame(d)
-print(d)
+#print(d)
 d.sort_values(by=['viento'], ascending=False, inplace=True)
 potencias = []
 potencias.append(d['potencia'][d['viento'] == round(6)].values[0].astype('int'))
@@ -87,7 +95,8 @@ mat = np.array(a)
 #print("Viento Norte")
 individualNorte = individual
 individualNorte = individualNorte.transpose()
-#print(individual)
+print(individualNorte)
+print(individualNorte.transpose())
 
 
 #------------------------------------ # Viento Sur

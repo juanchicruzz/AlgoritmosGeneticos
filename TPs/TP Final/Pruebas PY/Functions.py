@@ -60,6 +60,8 @@ def objFunction(individual: list):
                 distancia =  FindNextAerogenerator(fila,indexActual) * tamañoCelda
                 if distancia <= (2.3 * tamañoCelda):
                     windActual = windAfterGenerator(windActual,distancia)
+                else:
+                    windActual = wind0
             else:
                 potenciaFila.append(0)
         potenciaIndividual.append(potenciaFila)
@@ -69,14 +71,16 @@ def objFunction(individual: list):
  fitnessFunction:
 '''
 def fitnessFunction(pop: list, individual):
-    x = objFunction(individual)
+    x = objFunction(individual) # cambiar por funcion objetivo calculada de antemano
     x = list(chain.from_iterable(x))
-    objFuncPopulation = list(map(objFunction, pop))
+    objFuncPopulation = list(map(objFunction, pop)) # same aca pero de la poblacion
     for i in range(2):
         objFuncPopulation = list(chain.from_iterable(objFuncPopulation))
     print("potenciaIndividuo: ",sum(x))
+    potenciaInd = sum(x)
+    potenciaPoblacion = sum(objFuncPopulation)
     print("potenciaPoblacion: ",sum(objFuncPopulation))
-    return (sum(x)/(sum(objFuncPopulation)))
+    return (potenciaInd / potenciaPoblacion)
     
 
 '''
@@ -121,19 +125,41 @@ def selection(pop,isElite:bool):
 
     inxParents = np.random.choice(a=inxPop, p=fitnessList, size=size)
     for x in inxParents:
-        parents.append(pop[x])
+        padre = pop[x]
+        parents.append(padre)
     return parents
 
 
 '''
  crossover:
+ clase
+
+ casillero
+ aerogenerador: boolean
+ potencia: int
+ fitness: float
+ x: int
+ y: int
+
+    [(aero,potencia,fitness,x,y)]
 '''
-def crossover(ind1, ind2):
-    point = np.random.randint(0, 28)
-    newInd1 = [gen for inx, gen in enumerate(ind1) if inx <= point]
-    newInd2 = [gen for inx, gen in enumerate(ind2) if inx <= point]
-    newInd1.extend([gen for inx, gen in enumerate(ind2) if inx > point])
-    newInd2.extend([gen for inx, gen in enumerate(ind1) if inx > point])
+def crossover(padre1, padre2):
+    matrizObjetivo1 = objFunction(padre1)
+    matrizObjetivo2 = objFunction(padre1)
+    for i in range(len(matrizObjetivo1)):
+        for j in range(len(matrizObjetivo1[i])):
+            padre1[i][j] = (padre1[i][j], matrizObjetivo1[i][j])
+            padre2[i][j] = (padre2[i][j], matrizObjetivo2[i][j])
+
+    listaFilas = list(chain.from_iterable(padre1))
+    listaFilas.extend(list(chain.from_iterable(padre2)))
+    listaColumna = list(chain.from_iterable(padre1.transpose()))
+    listaColumna.extend(list(chain.from_iterable(padre2.transpose())))
+    listaFilas.sort(key=lambda tup: sum(tup[2]), reverse=True)
+    listaColumna.sort(key=lambda tup: sum(tup[2]), reverse=True)
+    newInd1 = listaFilas[:10]
+    newInd2 = listaColumna[:10]
+
 
     return newInd1, newInd2
 
