@@ -55,7 +55,6 @@ def objFunction(individual: list):
         for indexActual,celda in enumerate(fila):
             if celda == 1:
                 potenciaFila.append(dfpotencias['potencia'][dfpotencias['viento'] == round(windActual)].values[0].astype('int'))
-                #print("Aerogenerador: ",indexActual,"Fila:", indiceFila)
                 distancia =  FindNextAerogenerator(fila,indexActual) * tamañoCelda
                 if distancia <= (2.3 * tamañoCelda):
                     windActual = windAfterGenerator(windActual,distancia)
@@ -118,21 +117,17 @@ def validarCantidadAerogeneradores(individuo):
         
         for i in range(len(individuo)): #Ordeno la lista de menor  a mayor segun potencia
             if individuo[i][1] == 1:
-
                 listIndividual = list(individuo[i])
                 listIndividual[1] = 0   #Elimino aerogenerador
                 individuo[i] = tuple(listIndividual)
-
-                cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1 
+                cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1
                 if cantidadAerogeneradoresActual <= 25:
                     break; #Finalizo bucle si tengo 25 generadores
-        
 
         #Reorganizo el individuo segun las coordenadas de la matriz
         individuo = ([(celda[2],celda[3],celda[1]) for celda in individuo])
         individuo.sort(key=lambda x: (x[0],x[1]), reverse=False)
         individuo = np.reshape([celda[2] for celda in individuo],(10, 10))
-
     return individuo
 
 
@@ -200,7 +195,7 @@ def crossover(padre1, padre2):
 
     # Validar Cant maxima de aerogeneradores por individuo
     newInd1 = validarCantidadAerogeneradores(newInd1)
-    newInd2 = validarCantidadAerogeneradores(newInd1)
+    newInd2 = validarCantidadAerogeneradores(newInd2)
 
     return newInd1, newInd2
 
@@ -209,11 +204,14 @@ def crossover(padre1, padre2):
     Funcion que recibe un individuo y muta en un punto elegido al azar.
 '''
 def mutation(ind):
-    point = np.random.randint(0, 29)
-    if ind[point] == 0:
-        ind[point] = 1
+    pointx = np.random.randint(0, 10)
+    pointy = np.random.randint(0, 10)
+    if ind[pointx][pointy] == 0:
+        ind[pointx][pointy] = 1
     else:
-        ind[point] = 0
+        ind[pointx][pointy] = 0
+
+    ind = validarCantidadAerogeneradores(ind)
     return ind
 
 

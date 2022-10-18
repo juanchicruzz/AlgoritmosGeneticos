@@ -12,13 +12,7 @@ from itertools import chain
 seedMatrix = [1 if x <= 25 else 0 for x in range(100)]
 individual1 = np.random.permutation(seedMatrix).reshape(10,10)
 individual2 = np.random.permutation(seedMatrix).reshape(10,10)
-
 h1,h2 = f.crossover(individual1,individual2)
-print("HIJO 1")
-print(h1)
-print("HIJO 2")
-print(h2)
-
 
 def FindNextAerogenerator(f,index):
     cantidadCelda = 0
