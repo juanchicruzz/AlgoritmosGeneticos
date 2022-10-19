@@ -3,6 +3,7 @@ import Functions as fc
 import numpy as np
 import graficos as g
 import tablas as t
+import pantalla as p
 
 # Declaracion de variables estaticas reutilizables
 
@@ -11,19 +12,19 @@ emp = " "
 def ejecucion(cycles,initPopulation):
     print("SELECCION RULETA SIN ELITISMO")
     ciclos = [0]
-    maxList = []
-    promList = []
-    minList = []
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
     objFuncPopulationLista = fc.castFuncionObjetivo(objFuncPopulation)
     maxList=[max(objFuncPopulationLista)]
     promList=[np.average(objFuncPopulationLista)]
     minList=[min(objFuncPopulationLista)]
+
+    mejorIndividuoSE = []
+
     for j in range(1,cycles):
         parents = fc.selection(population,False)
         nextGeneration = []
-        for i in range(0,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
+        for i in range(0,50,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
             ind1 = []
             ind2 = []
             ind1 = parents[i]
@@ -49,6 +50,7 @@ def ejecucion(cycles,initPopulation):
         promList.append(np.average((objFuncPopulationLista)))
         minList.append(min((objFuncPopulationLista)))
         population=nextGeneration
+        mejorIndividuoSE.append(parents[0])
 
     # Graficado de los resultados obtenidos a partir de los metodos definidos en el archivo graficos.py
     #g.graficarLista(maxList,"Maximos Ruleta s/ Elitismo")
@@ -56,10 +58,13 @@ def ejecucion(cycles,initPopulation):
     #g.graficarLista(promList,"Promedios Ruleta s/ Elitismo")
     g.graficarConjunto(ciclos,minList,maxList,promList)
     #t.guardarTabla(maxList,minList,promList,"Ruleta s/ Elitismo")
+    p.DibujarIndividuo(mejorIndividuoSE[-1])
+
 
 
 
     print("SELECCION RULETA CON ELITISMO")
+    mejorIndividuoE = []
     ciclos = [0]
     population = initPopulation
     objFuncPopulation = list(map(fc.objFunction, population))
@@ -71,11 +76,12 @@ def ejecucion(cycles,initPopulation):
         parents = fc.selection(population,True)
         nextGeneration = []
         
-        #Se agregan los dos primeros por elitismo
-        nextGeneration.append(parents[0])
-        nextGeneration.append(parents[1])
+        #Se agregan los dos primeros por elitismo 
+        nextGeneration.append((parents[0]))
+        print(sum(sum(parents[0])))
+        nextGeneration.append((parents[1]))
 
-        for i in range(2,9,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
+        for i in range(2,50,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
             ind1 = []
             ind2 = []
             ind1 = parents[i]
@@ -102,9 +108,16 @@ def ejecucion(cycles,initPopulation):
         minList.append(min(objFuncPopulationLista))
         population=nextGeneration
 
+        mejorIndividuoE.append(parents[0])
+
+
+
     # Graficado de los resultados obtenidos a partir de los metodos definidos en el archivo graficos.py
     #g.graficarLista(maxList,"Maximos Ruleta c/ Elitismo")
     #g.graficarLista(minList,"Minimos Ruleta c/ Elitismo")
     #g.graficarLista(promList,"Promedios Ruleta c/ Elitismo")
     g.graficarConjunto(ciclos,minList,maxList,promList)
     #t.guardarTabla(maxList,minList,promList,"Ruleta c/ Elitismo")
+    print(mejorIndividuoE[-1])
+    p.DibujarIndividuo(mejorIndividuoE[-1])
+

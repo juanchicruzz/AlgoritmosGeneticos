@@ -9,8 +9,9 @@ from itertools import chain
 potencias = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
 dfpotencias = pd.DataFrame(data=potencias)
 
-
-seedMatrix = [1 if x <= 24 else 0 for x in range(100)]
+cantidadRandomAero = random.randint(0,24)
+print(cantidadRandomAero)
+seedMatrix = [1 if x <= cantidadRandomAero else 0 for x in range(100)]
 crossoverProb: float = 0.75
 mutationProb: float = 0.20
 cant_poblacion: int = 50
@@ -19,7 +20,7 @@ coef_arrastre = 0.05
 coef_induccionAxial = 0.333
 diametroTurbina = 47
 tamañoCelda = 94
-wind0 = 16
+wind0 = 7
 binaryList = [0, 1]
 
 # Definicion de funciones
@@ -77,7 +78,6 @@ def fitnessFunction(pop: list, individual):
     potenciaInd = sum(x)
     potenciaPoblacion = sum(objFuncPopulation)
     return (potenciaInd / potenciaPoblacion)
-    
 
 '''
  randomIndividual:
@@ -119,7 +119,7 @@ def validarCantidadAerogeneradores(individuo):
                 listIndividual[1] = 0   #Elimino aerogenerador
                 individuo[i] = tuple(listIndividual)
                 cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1
-                if cantidadAerogeneradoresActual <= 25:
+                if cantidadAerogeneradoresActual < 25:
                     break; #Finalizo bucle si tengo 25 generadores
 
         #Reorganizo el individuo segun las coordenadas de la matriz

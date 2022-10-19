@@ -6,6 +6,7 @@ import numpy as np
 import Functions as f
 from itertools import repeat
 from itertools import chain
+import pantalla as p
 
 
 
@@ -14,6 +15,9 @@ individual1 = np.random.permutation(seedMatrix).reshape(10,10)
 individual2 = np.random.permutation(seedMatrix).reshape(10,10)
 h1,h2 = f.crossover(individual1,individual2)
 
+
+
+p.dibujaCuadros(h1)
 def FindNextAerogenerator(f,index):
     cantidadCelda = 0
     for i in range(index+1,len(f)):
@@ -23,6 +27,10 @@ def FindNextAerogenerator(f,index):
             cantidadCelda = cantidadCelda + 1
             break
     return cantidadCelda
+
+
+
+
 
 d = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]}
 
