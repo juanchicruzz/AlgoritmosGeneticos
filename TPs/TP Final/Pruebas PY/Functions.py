@@ -9,18 +9,16 @@ from itertools import chain
 potencias = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
 dfpotencias = pd.DataFrame(data=potencias)
 
-cantidadRandomAero = random.randint(0,24)
-print(cantidadRandomAero)
-seedMatrix = [1 if x <= cantidadRandomAero else 0 for x in range(100)]
-crossoverProb: float = 0.75
-mutationProb: float = 0.20
+
+crossoverProb: float = 0.5
+mutationProb: float = 0.15
 cant_poblacion: int = 50
 cant_iteraciones: int = 15
 coef_arrastre = 0.05
 coef_induccionAxial = 0.333
 diametroTurbina = 47
 tamañoCelda = 94
-wind0 = 7
+wind0 = 10
 binaryList = [0, 1]
 
 # Definicion de funciones
@@ -83,7 +81,8 @@ def fitnessFunction(pop: list, individual):
  randomIndividual:
   Funcion que retorna un individuo aleatorio con 30 genes.
 '''
-def randomIndividual():
+def randomIndividual(cantidadRandomAero):
+    seedMatrix = [1 if x <= cantidadRandomAero else 0 for x in range(100)]
     individual = np.random.permutation(seedMatrix).reshape(10,10)
     return individual
 
@@ -94,7 +93,8 @@ def randomIndividual():
 def initializePopulation():
     a = []
     for i in range(cant_poblacion):
-        a.append(randomIndividual())
+        cantidadRandomAero = random.randint(1,10)
+        a.append(randomIndividual(cantidadRandomAero))
     return a
 
 
@@ -119,7 +119,7 @@ def validarCantidadAerogeneradores(individuo):
                 listIndividual[1] = 0   #Elimino aerogenerador
                 individuo[i] = tuple(listIndividual)
                 cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1
-                if cantidadAerogeneradoresActual < 25:
+                if cantidadAerogeneradoresActual == 25:
                     break; #Finalizo bucle si tengo 25 generadores
 
         #Reorganizo el individuo segun las coordenadas de la matriz
@@ -138,9 +138,15 @@ def decision(probability):
 '''
  selection:
 '''
-def selection(pop,isElite:bool):
+def selection(pop:list,isElite:bool):
     size=len(pop)
     inxPop = [inx for inx, val in enumerate(pop)]
+    #for i in range (len(pop)):
+    #    print(sum(sum(pop[i])))
+    #    if ((sum(sum(pop[i]))) > 25):
+    #        individuoAux = validarCantidadAerogeneradores(pop[i])
+    #        pop[i] = individuoAux
+
     fitnessList = list(map(fitnessFunction, repeat(pop), pop))
     parents = []
     if(isElite):
@@ -192,8 +198,6 @@ def crossover(padre1, padre2):
 
 
     # Validar Cant maxima de aerogeneradores por individuo
-    newInd1 = validarCantidadAerogeneradores(newInd1)
-    newInd2 = validarCantidadAerogeneradores(newInd2)
 
     return newInd1, newInd2
 
@@ -209,7 +213,6 @@ def mutation(ind):
     else:
         ind[pointx][pointy] = 0
 
-    ind = validarCantidadAerogeneradores(ind)
     return ind
 
 

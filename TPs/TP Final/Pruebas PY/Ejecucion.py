@@ -2,11 +2,10 @@ import main as mn
 import Functions as fc
 
 
-
 # Definicion de variables a utilizar a partir de los metodos definidos en el archivo Functions.py
 initPopulation = fc.initializePopulation()
 
-mn.ejecucion(40,initPopulation=initPopulation)
+mn.ejecucion(30,initPopulation=initPopulation)
 
 #mn.ejecucion(,initPopulation=initPopulation)
 #

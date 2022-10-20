@@ -37,9 +37,16 @@ def ejecucion(cycles,initPopulation):
                 ind2 = fc.mutation(ind2)
 
             nextGeneration.append(ind1)        
-            nextGeneration.append(ind2)        
+            nextGeneration.append(ind2)
+
+        #validar aerogeneradores
+        for i in range (len(nextGeneration)):
+                if ((sum(sum(nextGeneration[i]))) > 25):
+                    individuoAux = fc.validarCantidadAerogeneradores(nextGeneration[i])
+                    nextGeneration[i] = individuoAux           
 
         ciclos.append(j)
+        print("ciclo: ", j)
         objFuncPopulation = list(map(fc.objFunction, nextGeneration))
         objFuncPopulationLista = fc.castFuncionObjetivo(objFuncPopulation)
         #inxnextGen = [inx for inx, val in enumerate(nextGeneration)]
@@ -73,12 +80,11 @@ def ejecucion(cycles,initPopulation):
     promList=[np.average(objFuncPopulationLista)]
     minList=[min(objFuncPopulationLista)]
     for j in range(1,cycles):
+        print("ciclo: ", j)
         parents = fc.selection(population,True)
         nextGeneration = []
         
-        #Se agregan los dos primeros por elitismo 
         nextGeneration.append((parents[0]))
-        print(sum(sum(parents[0])))
         nextGeneration.append((parents[1]))
 
         for i in range(2,50,2): #i va saltando de dos en dos lo que nos permite tomar i e i+1 como padres sin repetirlos
@@ -94,7 +100,14 @@ def ejecucion(cycles,initPopulation):
                 ind2 = fc.mutation(ind2)
 
             nextGeneration.append(ind1)        
-            nextGeneration.append(ind2)        
+            nextGeneration.append(ind2)
+        
+
+        #validar aerogeneradores
+        for i in range (len(nextGeneration)):  
+                if ((sum(sum(nextGeneration[i]))) > 25):
+                    individuoAux = fc.validarCantidadAerogeneradores(nextGeneration[i])
+                    nextGeneration[i] = individuoAux  
         
         ciclos.append(j)
         objFuncPopulation = list(map(fc.objFunction, nextGeneration))

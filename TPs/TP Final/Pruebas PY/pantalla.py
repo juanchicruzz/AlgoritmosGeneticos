@@ -3,6 +3,8 @@ from random import *
 from xml.etree.ElementTree import tostring
 from PIL import Image,ImageTk
 import Functions as f
+from itertools import repeat
+from itertools import chain
 
 def DibujarIndividuo(individuo):
     root = Tk()
@@ -33,16 +35,23 @@ def DibujarIndividuo(individuo):
 
     imagen = PhotoImage(file = "molino.png")
 
-    textoAerogeneradores = "Cantidad de aerogeneradores: " + str(sum(sum(individuo)))
+    potenciaIndividuo = f.objFunction(individuo) 
+    potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
 
+    textoAerogeneradores = "Cantidad de aerogeneradores: " + str(sum(sum(individuo)))
     aerogeneradores = Label(root, text= textoAerogeneradores )
     aerogeneradores.grid(row = 0, column= 0)
     aerogeneradores.config(fg="white",bg= "#0B0301")
 
-    textoViento = "               Velocidad del viento:  " + str(f.wind0) + " km/h desde Este" 
+    textoViento = "Velocidad del viento:  " + str(f.wind0) + " km/h desde Este" 
     viento = Label(root, text= textoViento)
     viento.grid(row = 1, column = 0)
     viento.config(fg="white",bg= "#0B0301")
+
+    textoPotencia = "Potencia generada:  " + str(sum(potenciaIndividuo)) + " kW/s" 
+    potencia = Label(root, text= textoPotencia)
+    potencia.grid(row = 2, column = 0)
+    potencia.config(fg="white",bg= "#0B0301")
 
 
     for i in range(int(fil)):
