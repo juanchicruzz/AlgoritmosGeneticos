@@ -10,14 +10,14 @@ potencias = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,
 dfpotencias = pd.DataFrame(data=potencias)
 
 
-crossoverProb: float = 0.5
+crossoverProb: float = 0.75
 mutationProb: float = 0.15
 cant_poblacion: int = 50
 cant_iteraciones: int = 15
 coef_arrastre = 0.05
 coef_induccionAxial = 0.333
-diametroTurbina = 47
-tamañoCelda = 94
+diametroTurbina = 47 
+tamañoCelda = 94 
 wind0 = 10
 binaryList = [0, 1]
 
@@ -67,12 +67,9 @@ def objFunction(individual: list):
 '''
  fitnessFunction:
 '''
-def fitnessFunction(pop: list, individual):
+def fitnessFunction(individual, objFuncPopulation):
     x = objFunction(individual) # cambiar por funcion objetivo calculada de antemano
     x = list(chain.from_iterable(x))
-    objFuncPopulation = list(map(objFunction, pop)) # same aca pero de la poblacion
-    for i in range(2):
-        objFuncPopulation = list(chain.from_iterable(objFuncPopulation))
     potenciaInd = sum(x)
     potenciaPoblacion = sum(objFuncPopulation)
     return (potenciaInd / potenciaPoblacion)
@@ -92,8 +89,8 @@ def randomIndividual(cantidadRandomAero):
 '''
 def initializePopulation():
     a = []
+    cantidadRandomAero = random.randint(0,24)
     for i in range(cant_poblacion):
-        cantidadRandomAero = random.randint(1,10)
         a.append(randomIndividual(cantidadRandomAero))
     return a
 
@@ -147,7 +144,10 @@ def selection(pop:list,isElite:bool):
     #        individuoAux = validarCantidadAerogeneradores(pop[i])
     #        pop[i] = individuoAux
 
-    fitnessList = list(map(fitnessFunction, repeat(pop), pop))
+    objFuncPopulation = list(map(objFunction, pop))
+    for i in range(2):
+        objFuncPopulation = list(chain.from_iterable(objFuncPopulation))
+    fitnessList = list(map(fitnessFunction, pop,repeat(objFuncPopulation)))
     parents = []
     if(isElite):
         size=size-2
