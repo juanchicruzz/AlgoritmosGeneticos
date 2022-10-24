@@ -20,6 +20,7 @@ diametroTurbina = 47
 tamañoCelda = 94 
 wind0 = 10
 binaryList = [0, 1]
+CANTIDADAEROS = 50
 
 # Definicion de funciones
 
@@ -97,7 +98,7 @@ def initializePopulation():
 
 def validarCantidadAerogeneradores(individuo):
     cantidadAerogeneradoresActual = sum(sum(individuo)) # cuento cantidad actual de generadores
-    if (cantidadAerogeneradoresActual > 25):
+    if (cantidadAerogeneradoresActual > CANTIDADAEROS):
 
         individuo = np.array(individuo,dtype=object)
         matrizObjetivo = objFunction(individuo) # calculo f.Objetivo del individuo
@@ -116,7 +117,7 @@ def validarCantidadAerogeneradores(individuo):
                 listIndividual[1] = 0   #Elimino aerogenerador
                 individuo[i] = tuple(listIndividual)
                 cantidadAerogeneradoresActual = cantidadAerogeneradoresActual - 1
-                if cantidadAerogeneradoresActual == 25:
+                if cantidadAerogeneradoresActual == CANTIDADAEROS:
                     break; #Finalizo bucle si tengo 25 generadores
 
         #Reorganizo el individuo segun las coordenadas de la matriz
@@ -225,8 +226,6 @@ def castFuncionObjetivo(lista):
     for potenciaIndividuo in lista:
         potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
         listaFuncionObjetivo.append(sum(potenciaIndividuo))
-        print("lista")
-        print(listaFuncionObjetivo)
     return listaFuncionObjetivo
 
 

@@ -18,7 +18,8 @@ def ejecucion(cycles,initPopulation):
     maxList=[max(objFuncPopulationLista)]
     promList=[np.average(objFuncPopulationLista)]
     minList=[min(objFuncPopulationLista)]
-    mejorIndividuoSE = []
+    mejorHistoricos= []
+    maximoHistorico = 0
 
     for j in range(1,cycles):
         parents = fc.selection(population,False)
@@ -40,7 +41,7 @@ def ejecucion(cycles,initPopulation):
 
         #validar aerogeneradores
         for i in range (len(nextGeneration)):
-                if ((sum(sum(nextGeneration[i]))) > 25):
+                if ((sum(sum(nextGeneration[i]))) > fc.CANTIDADAEROS):
                     individuoAux = fc.validarCantidadAerogeneradores(nextGeneration[i])
                     nextGeneration[i] = individuoAux           
 
@@ -59,10 +60,20 @@ def ejecucion(cycles,initPopulation):
 
 
 
-        listaOrdenada = []
-        
-        if mejorIndividuoSE == []:
-            mejorIndividuoSE.append(parents[0])
+        listaOrdenada = [(inx,val) for inx,val in enumerate(objFuncPopulationLista)]
+
+        listaOrdenada.sort(key=lambda tup: tup[1], reverse=True)
+
+
+        if mejorHistoricos == []:
+            mejorHistoricos.append(nextGeneration[listaOrdenada[0][0]])
+            maximoHistorico = listaOrdenada[0][1]
+        elif listaOrdenada[0][1] > maximoHistorico:
+            mejorHistoricos.append(nextGeneration[listaOrdenada[0][0]])
+            maximoHistorico = listaOrdenada[0][1]
+        else:
+            mejorHistoricos.append(mejorHistoricos[-1])
+
 
 
 
@@ -75,7 +86,7 @@ def ejecucion(cycles,initPopulation):
 
 
 
-    p.DibujarIndividuo(mejorIndividuoSE[-1])
+    p.DibujarIndividuo(mejorHistoricos[-1])
 
 
 
@@ -115,7 +126,7 @@ def ejecucion(cycles,initPopulation):
 
         #validar aerogeneradores
         for i in range (len(nextGeneration)):  
-                if ((sum(sum(nextGeneration[i]))) > 25):
+                if ((sum(sum(nextGeneration[i]))) > fc.CANTIDADAEROS):
                     individuoAux = fc.validarCantidadAerogeneradores(nextGeneration[i])
                     nextGeneration[i] = individuoAux  
         
