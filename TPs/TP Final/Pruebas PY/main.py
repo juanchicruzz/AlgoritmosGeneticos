@@ -18,7 +18,6 @@ def ejecucion(cycles,initPopulation):
     maxList=[max(objFuncPopulationLista)]
     promList=[np.average(objFuncPopulationLista)]
     minList=[min(objFuncPopulationLista)]
-
     mejorIndividuoSE = []
 
     for j in range(1,cycles):
@@ -57,7 +56,15 @@ def ejecucion(cycles,initPopulation):
         promList.append(np.average((objFuncPopulationLista)))
         minList.append(min((objFuncPopulationLista)))
         population=nextGeneration
-        mejorIndividuoSE.append(parents[0])
+
+
+
+        listaOrdenada = []
+        
+        if mejorIndividuoSE == []:
+            mejorIndividuoSE.append(parents[0])
+
+
 
     # Graficado de los resultados obtenidos a partir de los metodos definidos en el archivo graficos.py
     #g.graficarLista(maxList,"Maximos Ruleta s/ Elitismo")
@@ -65,6 +72,9 @@ def ejecucion(cycles,initPopulation):
     #g.graficarLista(promList,"Promedios Ruleta s/ Elitismo")
     g.graficarConjunto(ciclos,minList,maxList,promList)
     #t.guardarTabla(maxList,minList,promList,"Ruleta s/ Elitismo")
+
+
+
     p.DibujarIndividuo(mejorIndividuoSE[-1])
 
 

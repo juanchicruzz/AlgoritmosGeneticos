@@ -89,8 +89,8 @@ def randomIndividual(cantidadRandomAero):
 '''
 def initializePopulation():
     a = []
-    cantidadRandomAero = random.randint(0,24)
     for i in range(cant_poblacion):
+        cantidadRandomAero = random.randint(0,24)
         a.append(randomIndividual(cantidadRandomAero))
     return a
 
@@ -156,7 +156,7 @@ def selection(pop:list,isElite:bool):
         parents.append(pop[fitAndInx[0][0]])
         parents.append(pop[fitAndInx[1][0]])
 
-    inxParents = np.random.choice(a=inxPop, p=fitnessList, size=size)
+    inxParents = np.random.choice(a=inxPop, p=fitnessList, size=size) 
     for x in inxParents:
         padre = pop[x]
         parents.append(padre)
@@ -225,7 +225,11 @@ def castFuncionObjetivo(lista):
     for potenciaIndividuo in lista:
         potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
         listaFuncionObjetivo.append(sum(potenciaIndividuo))
+        print("lista")
+        print(listaFuncionObjetivo)
     return listaFuncionObjetivo
+
+
 
 
 

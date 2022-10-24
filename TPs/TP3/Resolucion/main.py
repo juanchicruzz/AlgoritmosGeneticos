@@ -97,13 +97,13 @@ def Crossover_Ciclico(p1, p2):
     indexP1 = 0
     sigue = True
     while(sigue):
-        hijo[indexP1] = p1[indexP1]
+        hijo[indexP1] = p1[indexP1] # copio la capital del padre 1 al hijo (copia de p2)
 
-        valorP2 = p2[indexP1]
-        # calculo el indice en el padre 1 donde se encuentra el valorP2
-        indexP1 = p1.index(valorP2)
+        valorP2 = p2[indexP1] # me quedo con el valor que habia en esa posicion de p2 
 
-        if(valorP2 in hijo):
+        indexP1 = p1.index(valorP2)  # calculo el indice en el padre 1 donde se encuentra el valorP2 
+
+        if(valorP2 in hijo):  # condicion de corte
             sigue = False
 
     return hijo

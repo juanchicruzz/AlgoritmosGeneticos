@@ -74,7 +74,7 @@ def mapearRecorrido(recorridoNumerico):
 def CalculaDistanciaDeRecorrido(r):
     global datos
 
-    # antes de nada, hago que a la distancia del recorrido se le sume la vuelta.
+    #distancia del recorrido se le sume la vuelta.
     recorridoNumerico = r + [r[0]]
 
     distTotal = 0

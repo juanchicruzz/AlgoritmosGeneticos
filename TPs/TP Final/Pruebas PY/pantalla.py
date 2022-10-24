@@ -1,3 +1,4 @@
+from cProfile import label
 from tkinter import *
 from random import *
 from xml.etree.ElementTree import tostring
@@ -35,8 +36,10 @@ def DibujarIndividuo(individuo):
 
     imagen = PhotoImage(file = "molino.png")
 
-    potenciaIndividuo = f.objFunction(individuo) 
+    potenciaIndividuo = f.objFunction(individuo)
+    mostrarPotencias = potenciaIndividuo
     potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
+
 
     textoAerogeneradores = "Cantidad de aerogeneradores: " + str(sum(sum(individuo)))
     aerogeneradores = Label(root, text= textoAerogeneradores )
@@ -58,7 +61,8 @@ def DibujarIndividuo(individuo):
         btnlista.append([])
         for j in range(int(col)):
             if individuo[i][j] == 1:
-                btnlista[i].append(Button(f1, image=imagen, bd=0))
+                potenciaCelda = mostrarPotencias[i][j]
+                btnlista[i].append(Button(f1, text= "            "+ str(potenciaCelda) +"kW", wraplength= 40, justify=CENTER , font=('Helvetica 8 bold'), image=imagen ,compound = CENTER , bd=0, fg = "white"))
             else:
                 btnlista[i].append(Button(f1, bd=0))
             btnlista[i][j].config(bg="#07A01E",borderwidth = 1, activebackground = "#A2FBFF", relief = "solid")
