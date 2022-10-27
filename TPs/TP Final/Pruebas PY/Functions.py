@@ -20,7 +20,7 @@ diametroTurbina = 47
 tamañoCelda = 94 
 wind0 = 10
 binaryList = [0, 1]
-CANTIDADAEROS = 50
+CANTIDADAEROS = 25
 
 # Definicion de funciones
 
@@ -196,6 +196,8 @@ def crossover(padre1, padre2):
     newInd2 = list(chain.from_iterable(newInd2))
     newInd1 = np.reshape([celda[1] for celda in newInd1],(10, 10))
     newInd2 = np.reshape([celda[1] for celda in newInd2],(10, 10))
+
+    newInd2 = newInd2.transpose()
 
 
     # Validar Cant maxima de aerogeneradores por individuo

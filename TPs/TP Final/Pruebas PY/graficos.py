@@ -15,7 +15,8 @@ def graficarLista(lista,titulo):
     #plt.savefig('D:/Visual Studio Code/Github/AlgoritmosGeneticos/TPs/TP1/OPG200/' + 'AG_TP1_' + str(titulo.replace(" ","_").replace("/","")) + '.png', quality = 100, format = 'png', bbox_inches = 'tight', dpi = 100)
     plt.show()
 
-def graficarConjunto(ejeX, minimos, maximos, media):
+def graficarConjunto(ejeX, minimos, maximos, media, titulo):
+    plt.title(titulo)
     plt.plot(ejeX, minimos, label='Minimos', linewidth=2, color="red", alpha=0.6)
     plt.plot(ejeX, maximos, label='Maximos', linewidth=2, color="blue", alpha=0.6)
     plt.plot(ejeX, media, label='Media', linewidth=2, color="green", alpha=0.6)

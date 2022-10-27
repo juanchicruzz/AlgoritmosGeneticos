@@ -3,9 +3,11 @@ from tkinter import *
 from random import *
 from xml.etree.ElementTree import tostring
 from PIL import Image,ImageTk
+from numpy import place
 import Functions as f
 from itertools import repeat
 from itertools import chain
+import numpy as np
 
 def DibujarIndividuo(individuo):
     root = Tk()
@@ -38,23 +40,26 @@ def DibujarIndividuo(individuo):
 
     potenciaIndividuo = f.objFunction(individuo)
     mostrarPotencias = potenciaIndividuo
+    mostrarPotencias = np.array(mostrarPotencias).transpose()
     potenciaIndividuo = list(chain.from_iterable(potenciaIndividuo))
 
-
     textoAerogeneradores = "Cantidad de aerogeneradores: " + str(sum(sum(individuo)))
-    aerogeneradores = Label(root, text= textoAerogeneradores )
-    aerogeneradores.grid(row = 0, column= 0)
+    aerogeneradores = Label(root, text= textoAerogeneradores)
+    aerogeneradores.grid(row = 1, column= 0)
     aerogeneradores.config(fg="white",bg= "#0B0301")
 
-    textoViento = "Velocidad del viento:  " + str(f.wind0) + " km/h desde Este" 
+    textoViento = "            Velocidad del viento:  " + str(f.wind0) + " m/s desde Norte" 
     viento = Label(root, text= textoViento)
-    viento.grid(row = 1, column = 0)
+    viento.grid(row = 2, column = 0)
     viento.config(fg="white",bg= "#0B0301")
 
-    textoPotencia = "Potencia generada:  " + str(sum(potenciaIndividuo)) + " kW/s" 
+    textoPotencia = "Potencia total generada:  " + str(sum(potenciaIndividuo)) + " kW/s" 
     potencia = Label(root, text= textoPotencia)
-    potencia.grid(row = 2, column = 0)
+    potencia.grid(row = 3, column = 0)
     potencia.config(fg="white",bg= "#0B0301")
+
+    individuo = np.array(individuo).transpose()
+    print(individuo)
 
 
     for i in range(int(fil)):
@@ -62,10 +67,10 @@ def DibujarIndividuo(individuo):
         for j in range(int(col)):
             if individuo[i][j] == 1:
                 potenciaCelda = mostrarPotencias[i][j]
-                btnlista[i].append(Button(f1, text= "            "+ str(potenciaCelda) +"kW", wraplength= 40, justify=CENTER , font=('Helvetica 8 bold'), image=imagen ,compound = CENTER , bd=0, fg = "white"))
+                btnlista[i].append(Button(f1, text= "            "+ str(potenciaCelda) +"kW", wraplength= 40, justify=CENTER , font=('Helvetica 8 bold'), image=imagen ,compound = CENTER , bd=0, fg = "black"))
             else:
                 btnlista[i].append(Button(f1, bd=0))
-            btnlista[i][j].config(bg="#07A01E",borderwidth = 1, activebackground = "#A2FBFF", relief = "solid")
+            btnlista[i][j].config(bg="white",borderwidth = 1, activebackground = "#A2FBFF", relief = "solid")
             btnlista[i][j].place(relx = ncol*j, rely = nfil*i, relwidth= ncol, relheight= nfil)
 
     root.mainloop()

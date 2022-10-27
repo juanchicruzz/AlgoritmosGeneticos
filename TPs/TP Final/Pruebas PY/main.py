@@ -49,10 +49,6 @@ def ejecucion(cycles,initPopulation):
         print("ciclo: ", j)
         objFuncPopulation = list(map(fc.objFunction, nextGeneration))
         objFuncPopulationLista = fc.castFuncionObjetivo(objFuncPopulation)
-        #inxnextGen = [inx for inx, val in enumerate(nextGeneration)]
-        #objandInx = list(zip(inxnextGen,objFuncPopulationLista))
-        #objandInx.sort(key=lambda tup: tup[1], reverse=True)
-        #print("Ciclo ",j+1," Cromosoma: ",''.join(map(str, (nextGeneration[objandInx[0][0]]))))
         maxList.append(max((objFuncPopulationLista)))
         promList.append(np.average((objFuncPopulationLista)))
         minList.append(min((objFuncPopulationLista)))
@@ -74,21 +70,8 @@ def ejecucion(cycles,initPopulation):
         else:
             mejorHistoricos.append(mejorHistoricos[-1])
 
-
-
-
-    # Graficado de los resultados obtenidos a partir de los metodos definidos en el archivo graficos.py
-    #g.graficarLista(maxList,"Maximos Ruleta s/ Elitismo")
-    #g.graficarLista(minList,"Minimos Ruleta s/ Elitismo")
-    #g.graficarLista(promList,"Promedios Ruleta s/ Elitismo")
-    g.graficarConjunto(ciclos,minList,maxList,promList)
-    #t.guardarTabla(maxList,minList,promList,"Ruleta s/ Elitismo")
-
-
-
+    g.graficarConjunto(ciclos,minList,maxList,promList,titulo="Resultados - AG - s/Elitismo")
     p.DibujarIndividuo(mejorHistoricos[-1])
-
-
 
 
     print("SELECCION RULETA CON ELITISMO")
@@ -133,10 +116,6 @@ def ejecucion(cycles,initPopulation):
         ciclos.append(j)
         objFuncPopulation = list(map(fc.objFunction, nextGeneration))
         objFuncPopulationLista = fc.castFuncionObjetivo(objFuncPopulation)
-        # inxnextGen = [inx for inx, val in enumerate(nextGeneration)]
-        # objandInx = list(zip(inxnextGen,objFuncPopulationLista))
-        # objandInx.sort(key=lambda tup: tup[1], reverse=True)
-        # print("Ciclo ",j+1," Cromosoma: ",''.join(map(str, (nextGeneration[objandInx[0][0]]))))
         maxList.append(max(objFuncPopulationLista))
         promList.append(np.average(objFuncPopulationLista))
         minList.append(min(objFuncPopulationLista))
@@ -145,13 +124,6 @@ def ejecucion(cycles,initPopulation):
         mejorIndividuoE.append(parents[0])
 
 
-
-    # Graficado de los resultados obtenidos a partir de los metodos definidos en el archivo graficos.py
-    #g.graficarLista(maxList,"Maximos Ruleta c/ Elitismo")
-    #g.graficarLista(minList,"Minimos Ruleta c/ Elitismo")
-    #g.graficarLista(promList,"Promedios Ruleta c/ Elitismo")
-    g.graficarConjunto(ciclos,minList,maxList,promList)
-    #t.guardarTabla(maxList,minList,promList,"Ruleta c/ Elitismo")
-    print(mejorIndividuoE[-1])
+    g.graficarConjunto(ciclos,minList,maxList,promList,titulo="Resultados - AG - Elitismo")
     p.DibujarIndividuo(mejorIndividuoE[-1])
 
