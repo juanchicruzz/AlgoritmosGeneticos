@@ -6,8 +6,12 @@ from itertools import repeat
 from itertools import chain
 
 # Definicion de variables reutilizadas
-potencias = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
-dfpotencias = pd.DataFrame(data=potencias)
+potenciasg47 = {'viento': np.arange(0,26), 'potencia': [0,0,0,0,53,106,166,252,350,464,560,630,660,660,660,660,660,660,660,660,660,660,660,660,660,0]} # SE APAGA POR PRECUACION 
+potenciasg128= {'viento': np.arange(0,26), 'potencia': [0,0,75,165,300,600,967,1533,2200,3018,3774,4314,4490,4500,4500,4500,4500,4500,4500,4306,4113,3919,3725,3532,3339,3145]} # SE APAGA POR PRECUACION 
+potenciasRepower= {'viento': np.arange(0,26), 'potencia': [0,0,0,0,66,192,343,519,711,959,1355,1681,1861,1947,1987,2000,2000,2000,2000,2000,2000,2000,2000,0,0,0]} # SE APAGA POR PRECUACION 
+
+
+dfpotencias = pd.DataFrame(data=potenciasg47)
 
 
 crossoverProb: float = 0.75
@@ -18,7 +22,7 @@ coef_arrastre = 0.05
 coef_induccionAxial = 0.333
 diametroTurbina = 47 
 tamañoCelda = 94 
-wind0 = 10
+wind0 = 7
 binaryList = [0, 1]
 CANTIDADAEROS = 25
 
@@ -139,11 +143,6 @@ def decision(probability):
 def selection(pop:list,isElite:bool):
     size=len(pop)
     inxPop = [inx for inx, val in enumerate(pop)]
-    #for i in range (len(pop)):
-    #    print(sum(sum(pop[i])))
-    #    if ((sum(sum(pop[i]))) > 25):
-    #        individuoAux = validarCantidadAerogeneradores(pop[i])
-    #        pop[i] = individuoAux
 
     objFuncPopulation = list(map(objFunction, pop))
     for i in range(2):
